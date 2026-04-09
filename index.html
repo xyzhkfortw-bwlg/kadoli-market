@@ -591,9 +591,10 @@ let selectedCat  = '';
 let selectedSize = '';
 
 // ── 設定 ─────────────────────────────────────
-const GAS_URL_KEY = 'kadori_gas_url';
+const HARDCODED_GAS_URL = 'https://script.google.com/macros/s/AKfycbwnswwPl7oBh3WJgOvDTsiXFvlBmf87vsJUJHqUdsBS7z-ITfiAyiqSjn_ov27V5qio/exec
+'; 
 
-function getGasUrl() { return localStorage.getItem(GAS_URL_KEY) || ''; }
+function getGasUrl() { return HARDCODED_GAS_URL; }
 function saveSetup() {
   const url = document.getElementById('gasUrl').value.trim();
   if (!url || !url.startsWith('https://script.google.com')) {
@@ -611,10 +612,11 @@ function skipSetup() {
 
 // ── 初始化 ────────────────────────────────────
 window.addEventListener('DOMContentLoaded', () => {
-  if (!getGasUrl()) {
+  // 已經寫死網址，所以不需要再跳出設定視窗
+  /* if (!getGasUrl()) {
     document.getElementById('setupModal').classList.remove('hidden');
   }
-  // 類別選擇
+  */  // 類別選擇
   document.querySelectorAll('.cat-item').forEach(el => {
     el.addEventListener('click', () => {
       document.querySelectorAll('.cat-item').forEach(e => e.classList.remove('selected'));
