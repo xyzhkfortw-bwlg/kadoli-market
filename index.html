@@ -104,14 +104,14 @@ textarea { resize:none; min-height:80px; line-height:1.6; }
                         font-weight:600; }
 .size-item.selected .size-name { color:var(--green-mid); }
 
-/* ── 勾選框 ── */
+/* ── 勾選框 (設備專用) ── */
 .checkbox-group { display:flex; flex-direction:column; gap:10px; }
 .check-item { display:flex; align-items:center; gap:12px; cursor:pointer;
-              padding:10px 14px; border:1.5px solid var(--border); border-radius:10px;
-              transition:all .2s; }
+              padding:12px 14px; border:1.5px solid var(--border); border-radius:10px;
+              transition:all .2s; background:#fff; }
 .check-item:has(input:checked) { border-color:var(--green-mid); background:#EBF5EB; }
-.check-item input[type=checkbox] { width:18px; height:18px; accent-color:var(--green-mid);
-                                   flex-shrink:0; cursor:pointer; }
+.check-item input[type=checkbox] { width:20px; height:20px; accent-color:var(--green-mid);
+                                   flex-shrink:0; cursor:pointer; -webkit-appearance:checkbox; appearance:checkbox; }
 .check-label { font-size:13px; color:var(--text); line-height:1.4; }
 
 /* ── 抽成說明框 ── */
@@ -128,7 +128,7 @@ textarea { resize:none; min-height:80px; line-height:1.6; }
                padding:10px 0; border-bottom:1px solid var(--border); gap:12px; }
 .summary-row:last-child { border-bottom:none; }
 .summary-key { font-size:12px; color:var(--muted); flex-shrink:0; min-width:80px; }
-.summary-val { font-size:13px; color:var(--text); font-weight:600; text-align:right; }
+.summary-val { font-size:13px; color:var(--text); font-weight:600; text-align:right; word-break:break-all; }
 
 /* ── 按鈕 ── */
 .btn-row { padding:12px 16px 32px; display:flex; gap:10px; }
@@ -243,6 +243,20 @@ textarea { resize:none; min-height:80px; line-height:1.6; }
   </div>
 
   <div class="card">
+    <div class="card-title">使用設備需求</div>
+    <div class="checkbox-group">
+      <label class="check-item">
+        <input type="checkbox" name="equip" value="⚡ 需要用電">
+        <span class="check-label">⚡ 需要用電<br><small style="color:var(--muted)">現場提供基本電力接引</small></span>
+      </label>
+      <label class="check-item">
+        <input type="checkbox" name="equip" value="💧 需要用水">
+        <span class="check-label">💧 需要用水<br><small style="color:var(--muted)">附近有共用公設水源</small></span>
+      </label>
+    </div>
+  </div>
+
+  <div class="card">
     <div class="card-title">攤位尺寸需求</div>
     <div class="size-grid" id="sizeGrid">
       <div class="size-item" data-size="標準攤位（3×3m）"><div class="size-name">標準攤位</div><div class="size-dim">3 × 3m</div></div>
@@ -282,8 +296,12 @@ textarea { resize:none; min-height:80px; line-height:1.6; }
     </div>
     <div class="form-group">
       <label>商品／服務簡介 <span class="req">*</span></label>
-      <textarea id="productDesc" rows="4"></textarea>
+      <textarea id="productDesc" rows="4" placeholder="請簡述您的商品種類或服務內容…"></textarea>
       <div class="error-msg">請填寫商品簡介</div>
+    </div>
+    <div class="form-group">
+      <label>備註 (選填)</label>
+      <textarea id="notes" rows="2" placeholder="是否有其他特殊需求？"></textarea>
     </div>
   </div>
 </div>
@@ -322,7 +340,7 @@ const TOTAL_STEPS = 4;
 let selectedCat  = '';
 let selectedSize = '';
 
-// ── 後台網址設定 (已寫死，不會再跳設定視窗) ──
+// ── 後台網址設定 ──
 const HARDCODED_GAS_URL = 'https://script.google.com/macros/s/AKfycby6vIPFJrOn35cUMkiMM9D4qW1hMcrLDPWPEFOypJMEHImHNDYS6tb5q50uM4mm2fY/exec';
 
 function getGasUrl() { return HARDCODED_GAS_URL; }
@@ -387,16 +405,20 @@ function validateStep(step) {
   return ok;
 }
 
+// ── 建立摘要顯示 ──
 function buildSummary() {
-  const equip = [...document.querySelectorAll('input[name=equip]:checked')].map(e=>e.value).join('、') || '無';
+  const equip = [...document.querySelectorAll('input[name=equip]:checked')].map(e=>e.value).join('、') || '無額外需求';
   const rows = [
     ['攤商名稱', document.getElementById('businessName').value],
     ['聯絡人', document.getElementById('contactName').value],
     ['手機', document.getElementById('phone').value],
+    ['電子信箱', document.getElementById('email').value || '未填寫'], // 補上摘要
     ['類別', selectedCat],
     ['尺寸', selectedSize],
     ['日期', document.getElementById('preferredDates').value],
-    ['設備', equip]
+    ['預估營收', document.getElementById('estimatedRevenue').value],
+    ['使用設備', equip], // 補上摘要
+    ['備註', document.getElementById('notes').value || '無'] // 補上摘要
   ];
   return rows.map(([k,v]) => `<div class="summary-row"><span class="summary-key">${k}</span><span class="summary-val">${v}</span></div>`).join('');
 }
@@ -419,25 +441,33 @@ function prevStep() {
   updateProgress(currentStep);
 }
 
+// ── 送出表單 (補上 missing fields) ──
 async function submitForm() {
   const gasUrl = getGasUrl();
   const appId = 'KD-' + Date.now().toString(36).toUpperCase();
+  
+  // 正確抓取設備勾選資料
+  const equip = [...document.querySelectorAll('input[name=equip]:checked')].map(e=>e.value).join('、') || '無';
+
   const payload = {
     appId,
     businessName: document.getElementById('businessName').value.trim(),
     contactName: document.getElementById('contactName').value.trim(),
     phone: document.getElementById('phone').value.trim(),
     lineId: document.getElementById('lineId').value.trim(),
-    email: document.getElementById('email').value.trim(),
+    email: document.getElementById('email').value.trim(), // 確保這行有在
     category: selectedCat,
     stallSize: selectedSize,
     preferredDates: document.getElementById('preferredDates').value,
     estimatedRevenue: document.getElementById('estimatedRevenue').value,
-    productDesc: document.getElementById('productDesc').value.trim()
+    productDesc: document.getElementById('productDesc').value.trim(),
+    equipment: equip,                             // <--- 補上設備
+    notes: document.getElementById('notes').value.trim() // <--- 補上備註
   };
 
   document.getElementById('loadingOverlay').classList.remove('hidden');
   try {
+    // 雖然使用 mode: 'no-cors'，資料仍會送出，只是抓不到回應，這是正常的
     await fetch(gasUrl, { method: 'POST', mode: 'no-cors', body: JSON.stringify(payload) });
     document.getElementById('loadingOverlay').classList.add('hidden');
     document.getElementById('btnRow').style.display = 'none';
