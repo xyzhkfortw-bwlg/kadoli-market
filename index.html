@@ -150,29 +150,6 @@ textarea { resize:none; min-height:80px; line-height:1.6; }
               color:#fff; padding:8px 20px; border-radius:99px; font-size:13px;
               font-weight:600; letter-spacing:1px; }
 
-/* ── 設定 Modal ── */
-.modal-overlay { position:fixed; inset:0; background:rgba(0,0,0,.6); z-index:999;
-                 display:flex; align-items:flex-end; justify-content:center;
-                 backdrop-filter:blur(3px); }
-.modal-overlay.hidden { display:none; }
-.modal-sheet { background:#fff; border-radius:20px 20px 0 0; width:100%;
-               max-height:90vh; overflow-y:auto; padding:24px 20px 40px; }
-.modal-handle { width:40px; height:4px; background:#DDD; border-radius:2px;
-                margin:0 auto 20px; }
-.modal-title { font-size:18px; font-weight:700; color:var(--text); margin-bottom:6px; }
-.modal-sub { font-size:13px; color:var(--muted); margin-bottom:20px; line-height:1.6; }
-.setup-step { display:flex; gap:12px; margin-bottom:16px; }
-.setup-num { width:28px; height:28px; border-radius:50%; background:var(--green-mid);
-             color:#fff; font-size:13px; font-weight:700; display:flex;
-             align-items:center; justify-content:center; flex-shrink:0; margin-top:1px; }
-.setup-content { flex:1; }
-.setup-step-title { font-size:13px; font-weight:700; color:var(--text); margin-bottom:4px; }
-.setup-step-desc { font-size:12px; color:var(--muted); line-height:1.7; }
-.setup-step-desc a { color:var(--green-mid); font-weight:600; }
-.setup-step-desc code { background:#F5F5F5; padding:2px 6px; border-radius:4px;
-                        font-size:11px; }
-.token-input-group { margin-top:16px; }
-
 /* ── 載入中 ── */
 .loading-overlay { position:fixed; inset:0; background:rgba(255,255,255,.85); z-index:998;
                    display:flex; flex-direction:column; align-items:center;
@@ -193,14 +170,12 @@ textarea { resize:none; min-height:80px; line-height:1.6; }
 </head>
 <body>
 
-<!-- ── 頂部 HERO ── -->
 <div class="hero">
   <div class="hero-logo">🌲 KADORI TIME FOREST</div>
   <div class="hero-title">卡多里時光森林<br><span>市集攤商招募報名</span></div>
   <div class="hero-sub">台中市北屯區東山路二段 × 大坑風景區</div>
 </div>
 
-<!-- ── 進度條 ── -->
 <div class="progress-wrap">
   <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:25%"></div></div>
   <div class="step-labels">
@@ -211,9 +186,6 @@ textarea { resize:none; min-height:80px; line-height:1.6; }
   </div>
 </div>
 
-<!-- ────────────────────────────────────────────
-  STEP 1：基本資料
-──────────────────────────────────────────── -->
 <div class="step-page active" id="step1">
   <div class="notice">
     <div class="notice-icon">🏕️</div>
@@ -227,31 +199,26 @@ textarea { resize:none; min-height:80px; line-height:1.6; }
 
   <div class="card">
     <div class="card-title">基本聯絡資料</div>
-
     <div class="form-group" id="fg-businessName">
       <label>攤商/品牌名稱 <span class="req">*</span></label>
       <input type="text" id="businessName" placeholder="例：山林野炊、露營裝備屋">
       <div class="error-msg">請輸入攤商名稱</div>
     </div>
-
     <div class="form-group" id="fg-contactName">
       <label>聯絡人姓名 <span class="req">*</span></label>
       <input type="text" id="contactName" placeholder="請輸入真實姓名">
       <div class="error-msg">請輸入聯絡人姓名</div>
     </div>
-
     <div class="form-group" id="fg-phone">
       <label>手機號碼 <span class="req">*</span></label>
       <input type="tel" id="phone" placeholder="09XX-XXX-XXX" maxlength="12">
       <div class="error-msg">請輸入有效手機號碼</div>
     </div>
-
     <div class="form-group">
       <label>LINE ID</label>
-      <input type="text" id="lineId" placeholder="請輸入您的 LINE ID（方便快速聯繫）">
+      <input type="text" id="lineId" placeholder="請輸入您的 LINE ID">
       <div class="input-hint">填寫後我們可直接透過 LINE 與您聯絡</div>
     </div>
-
     <div class="form-group">
       <label>電子信箱</label>
       <input type="email" id="email" placeholder="用於寄送審核結果通知">
@@ -259,364 +226,110 @@ textarea { resize:none; min-height:80px; line-height:1.6; }
   </div>
 </div>
 
-<!-- ────────────────────────────────────────────
-  STEP 2：攤位類型
-──────────────────────────────────────────── -->
 <div class="step-page" id="step2">
   <div class="card">
     <div class="card-title">選擇攤商類別</div>
-    <p style="font-size:12px;color:var(--muted);margin-bottom:14px;">以露營/戶外生活相關為主，請選擇最符合的類別</p>
-
     <div class="cat-grid" id="catGrid">
-      <div class="cat-item" data-cat="🏕️ 露營裝備">
-        <div class="cat-icon">🏕️</div>
-        <div class="cat-name">露營裝備</div>
-        <div class="cat-desc">帳篷、睡袋、登山戶外用品</div>
-      </div>
-      <div class="cat-item" data-cat="🍳 戶外料理美食">
-        <div class="cat-icon">🍳</div>
-        <div class="cat-name">戶外料理美食</div>
-        <div class="cat-desc">野炊料理、山野小吃、特色食品</div>
-      </div>
-      <div class="cat-item" data-cat="☕ 咖啡茶飲">
-        <div class="cat-icon">☕</div>
-        <div class="cat-name">咖啡茶飲</div>
-        <div class="cat-desc">手沖咖啡、冷泡茶、特色飲品</div>
-      </div>
-      <div class="cat-item" data-cat="🌿 有機農產品">
-        <div class="cat-icon">🌿</div>
-        <div class="cat-name">有機農產品</div>
-        <div class="cat-desc">自然農法食材、山野菜、在地農產</div>
-      </div>
-      <div class="cat-item" data-cat="🔧 車宿周邊配件">
-        <div class="cat-icon">🔧</div>
-        <div class="cat-name">車宿周邊配件</div>
-        <div class="cat-desc">車宿改裝、車用精品、戶外配件</div>
-      </div>
-      <div class="cat-item" data-cat="🧺 手作體驗工藝">
-        <div class="cat-icon">🧺</div>
-        <div class="cat-name">手作體驗工藝</div>
-        <div class="cat-desc">皮革木工、野外求生體驗、手作DIY</div>
-      </div>
-      <div class="cat-item" data-cat="🌙 夜間特色活動">
-        <div class="cat-icon">🌙</div>
-        <div class="cat-name">夜間特色活動</div>
-        <div class="cat-desc">星空觀測、螢火蟲導覽、夜間生態</div>
-      </div>
-      <div class="cat-item" data-cat="🐾 寵物友善商品">
-        <div class="cat-icon">🐾</div>
-        <div class="cat-name">寵物友善商品</div>
-        <div class="cat-desc">寵物零食、露營寵物用品（毛孩友善）</div>
-      </div>
+      <div class="cat-item" data-cat="🏕️ 露營裝備"><div class="cat-icon">🏕️</div><div class="cat-name">露營裝備</div></div>
+      <div class="cat-item" data-cat="🍳 戶外料理美食"><div class="cat-icon">🍳</div><div class="cat-name">戶外料理</div></div>
+      <div class="cat-item" data-cat="☕ 咖啡茶飲"><div class="cat-icon">☕</div><div class="cat-name">咖啡茶飲</div></div>
+      <div class="cat-item" data-cat="🌿 有機農產品"><div class="cat-icon">🌿</div><div class="cat-name">農產品</div></div>
+      <div class="cat-item" data-cat="🔧 車宿周邊配件"><div class="cat-icon">🔧</div><div class="cat-name">車宿配件</div></div>
+      <div class="cat-item" data-cat="🧺 手作體驗工藝"><div class="cat-icon">🧺</div><div class="cat-name">手作工藝</div></div>
     </div>
     <div id="fg-cat" class="form-group" style="margin-top:10px;">
-      <div class="error-msg" style="display:none" id="catError">請選擇攤商類別</div>
+      <div class="error-msg" id="catError">請選擇攤商類別</div>
     </div>
   </div>
 
   <div class="card">
     <div class="card-title">攤位尺寸需求</div>
     <div class="size-grid" id="sizeGrid">
-      <div class="size-item" data-size="標準攤位（3×3m）">
-        <div class="size-name">標準攤位</div>
-        <div class="size-dim">3 × 3 公尺</div>
-        <div class="size-note">🪵 含基礎桌椅</div>
-      </div>
-      <div class="size-item" data-size="精選攤位（3×4.5m）">
-        <div class="size-name">精選攤位</div>
-        <div class="size-dim">3 × 4.5 公尺</div>
-        <div class="size-note">⭐ 角落黃金位</div>
-      </div>
-      <div class="size-item" data-size="餐車/行動攤車停車格">
-        <div class="size-name">餐車攤車</div>
-        <div class="size-dim">停車格尺寸</div>
-        <div class="size-note">🚌 含供電樁</div>
-      </div>
-      <div class="size-item" data-size="其他（請於備注說明）">
-        <div class="size-name">其他需求</div>
-        <div class="size-dim">特殊尺寸需求</div>
-        <div class="size-note">📝 備注說明</div>
-      </div>
+      <div class="size-item" data-size="標準攤位（3×3m）"><div class="size-name">標準攤位</div><div class="size-dim">3 × 3m</div></div>
+      <div class="size-item" data-size="精選攤位（3×4.5m）"><div class="size-name">精選攤位</div><div class="size-dim">3 × 4.5m</div></div>
+      <div class="size-item" data-size="餐車/行動攤車停車格"><div class="size-name">餐車攤車</div><div class="size-dim">停車格尺寸</div></div>
+      <div class="size-item" data-size="其他需求"><div class="size-name">其他需求</div><div class="size-dim">特殊尺寸</div></div>
     </div>
-    <div id="fg-size">
-      <div class="error-msg" style="display:none" id="sizeError">請選擇攤位尺寸</div>
-    </div>
+    <div id="fg-size" class="form-group"><div class="error-msg" id="sizeError">請選擇攤位尺寸</div></div>
   </div>
 </div>
 
-<!-- ────────────────────────────────────────────
-  STEP 3：需求說明
-──────────────────────────────────────────── -->
 <div class="step-page" id="step3">
   <div class="card">
-    <div class="card-title">抽成制度說明</div>
+    <div class="card-title">抽成制度與預估</div>
     <div class="commission-box">
       <div class="commission-pct">15%</div>
       <div class="commission-label">每日營業額抽成</div>
-      <div class="commission-desc">
-        無攤位費、無保證金<br>
-        每日收攤後以日報表結算，月結或週結皆可協商<br>
-        <strong>主辦方免費提供：</strong>電力、給水、桌椅、停車導引
-      </div>
     </div>
-
     <div class="form-group">
-      <label>預估每日營業額（新台幣）<span class="req">*</span></label>
+      <label>預估每日營業額 <span class="req">*</span></label>
       <select id="estimatedRevenue">
-        <option value="">請選擇預估範圍</option>
-        <option value="5,000元以下">5,000 元以下</option>
-        <option value="5,000－10,000元">5,000 － 10,000 元</option>
-        <option value="10,000－20,000元">10,000 － 20,000 元</option>
-        <option value="20,000元以上">20,000 元以上</option>
-        <option value="不確定，視當日人流">不確定，視當日人流</option>
+        <option value="">請選擇</option>
+        <option value="5,000元以下">5,000元以下</option>
+        <option value="5,000－10,000元">5,000－10,000元</option>
+        <option value="10,000元以上">10,000元以上</option>
       </select>
-      <div class="input-hint">此為評估抽成收益參考，不影響審核結果</div>
     </div>
-  </div>
-
-  <div class="card">
-    <div class="card-title">設備與電力需求</div>
-    <div class="form-group">
-      <label>需要使用的設備／用電器具</label>
-      <div class="checkbox-group">
-        <label class="check-item">
-          <input type="checkbox" value="110V 一般插座" name="equip">
-          <span class="check-label">🔌 110V 一般插座（電燈、手機充電等）</span>
-        </label>
-        <label class="check-item">
-          <input type="checkbox" value="220V 大功率電力" name="equip">
-          <span class="check-label">⚡ 220V 大功率電力（烤爐、電磁爐等）</span>
-        </label>
-        <label class="check-item">
-          <input type="checkbox" value="瓦斯爐具（自備）" name="equip">
-          <span class="check-label">🔥 瓦斯爐具（自備）</span>
-        </label>
-        <label class="check-item">
-          <input type="checkbox" value="冰箱／冷藏設備" name="equip">
-          <span class="check-label">🧊 冰箱 / 冷藏設備</span>
-        </label>
-        <label class="check-item">
-          <input type="checkbox" value="音響設備（自備）" name="equip">
-          <span class="check-label">🔊 音響設備（自備）</span>
-        </label>
-        <label class="check-item">
-          <input type="checkbox" value="帳篷／天幕（自備）" name="equip">
-          <span class="check-label">⛺ 帳篷 / 天幕（自備）</span>
-        </label>
-      </div>
-    </div>
-
     <div class="form-group">
       <label>期望出攤日期 <span class="req">*</span></label>
       <select id="preferredDates">
-        <option value="">請選擇出攤頻率</option>
-        <option value="每週六、日（固定週末）">每週六、日（固定週末）</option>
+        <option value="">請選擇</option>
+        <option value="每週六、日">每週六、日</option>
         <option value="僅週六">僅週六</option>
         <option value="僅週日">僅週日</option>
-        <option value="連假、特定節日">連假、特定節日</option>
-        <option value="彈性配合，可協商">彈性配合，可協商</option>
+        <option value="彈性配合">彈性配合</option>
       </select>
     </div>
-
     <div class="form-group">
       <label>商品／服務簡介 <span class="req">*</span></label>
-      <textarea id="productDesc" placeholder="請簡短介紹您的商品或服務特色，例如：台中在地農場自產有機蔬菜、野炊米糕、手沖咖啡..." rows="4"></textarea>
+      <textarea id="productDesc" rows="4"></textarea>
       <div class="error-msg">請填寫商品簡介</div>
     </div>
-
-    <div class="form-group">
-      <label>其他備注或特殊需求</label>
-      <textarea id="notes" placeholder="例如：有自己的帳篷、需要特定位置、合夥攤商..." rows="3"></textarea>
-    </div>
   </div>
 </div>
 
-<!-- ────────────────────────────────────────────
-  STEP 4：確認送出
-──────────────────────────────────────────── -->
 <div class="step-page" id="step4">
   <div class="card">
-    <div class="card-title">報名資料確認</div>
+    <div class="card-title">資料確認</div>
     <div id="summaryContent"></div>
-  </div>
-
-  <div class="card" style="background:#FFF8E1;border:1.5px solid #FFD54F;">
-    <div style="font-size:13px;color:#795548;line-height:1.8;">
-      📋 <strong>送出後流程：</strong><br>
-      ①&nbsp;系統自動記錄您的報名資料<br>
-      ②&nbsp;主辦方 3 個工作日內以 LINE / 電話聯繫審核結果<br>
-      ③&nbsp;審核通過後簽訂合作協議，確認出攤日期<br><br>
-      ✅ 報名資料僅用於審核聯繫，不作其他用途
-    </div>
   </div>
 </div>
 
-<!-- ── 按鈕列 ── -->
 <div class="btn-row" id="btnRow">
   <button class="btn btn-back" id="btnBack" onclick="prevStep()" style="display:none">← 上一步</button>
   <button class="btn btn-main" id="btnNext" onclick="nextStep()">下一步 →</button>
 </div>
 
-<!-- ── 成功畫面 ── -->
 <div id="success-screen">
   <div class="success-icon">🎉</div>
   <div class="success-title">報名成功！</div>
-  <div class="success-sub">
-    感謝您報名卡多里時光森林市集！<br>
-    我們已收到您的資料，<br>
-    主辦方將在 <strong>3 個工作日內</strong> 與您聯繫。<br><br>
-    請保持手機暢通，期待與您攜手出發 🌲
-  </div>
+  <div class="success-sub">主辦方將在 3 個工作日內與您聯繫。</div>
   <div class="success-id" id="appIdDisplay"></div>
   <br><br>
-  <button class="btn btn-main" style="max-width:220px;margin:0 auto;display:block"
-          onclick="resetForm()">再填一份報名表</button>
+  <button class="btn btn-main" style="max-width:220px;margin:0 auto;display:block" onclick="resetForm()">再填一份</button>
 </div>
 
-<!-- ── 設定 Modal ── -->
-<div class="modal-overlay" id="setupModal">
-  <div class="modal-sheet">
-    <div class="modal-handle"></div>
-    <div class="modal-title">⚙️ 首次設定</div>
-    <div class="modal-sub">
-      請完成以下設定，系統才能在有新報名時自動通知您，
-      並將資料儲存至 Google 試算表。
-      <br><br>
-      <span style="color:var(--green-mid);font-weight:600;">✅ 只需設定一次，之後每次開啟自動生效。</span>
-    </div>
-
-    <!-- 步驟 A：LINE Messaging API -->
-    <div style="background:#F0FFF4;border-radius:12px;padding:16px;margin-bottom:16px;">
-      <div style="font-size:14px;font-weight:700;color:var(--green-mid);margin-bottom:4px;">
-        💬 步驟一：建立 LINE 機器人
-      </div>
-      <div style="font-size:11px;color:var(--muted);margin-bottom:12px;">
-        ⚠️ LINE Notify 已於 2025/3/31 停止服務，改用官方 Messaging API（免費）
-      </div>
-      <div class="setup-step">
-        <div class="setup-num">1</div>
-        <div class="setup-content">
-          <div class="setup-step-title">前往 LINE Developers 建立機器人</div>
-          <div class="setup-step-desc">
-            開啟 <a href="https://developers.line.biz" target="_blank">developers.line.biz</a>，
-            用 LINE 帳號登入 → 建立 Provider → 建立 <strong>Messaging API</strong> 頻道。
-          </div>
-        </div>
-      </div>
-      <div class="setup-step">
-        <div class="setup-num">2</div>
-        <div class="setup-content">
-          <div class="setup-step-title">取得 Channel Access Token</div>
-          <div class="setup-step-desc">
-            進入頻道 →「Messaging API」分頁 → 找「Channel access token」→
-            點「Issue」→ 複製 Token。
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- 步驟 B：Google Apps Script -->
-    <div style="background:#F3F8F4;border-radius:12px;padding:16px;margin-bottom:20px;">
-      <div style="font-size:14px;font-weight:700;color:var(--green-mid);margin-bottom:12px;">
-        📊 步驟二：建立 Google 試算表後台
-      </div>
-      <div class="setup-step">
-        <div class="setup-num">1</div>
-        <div class="setup-content">
-          <div class="setup-step-title">建立 Google Apps Script 專案</div>
-          <div class="setup-step-desc">
-            前往 <a href="https://script.google.com" target="_blank">script.google.com</a>，
-            新增專案，將 <strong>後台程式碼.gs</strong> 全部貼上，
-            執行 <code>saveToken()</code> 儲存 Token。
-          </div>
-        </div>
-      </div>
-      <div class="setup-step">
-        <div class="setup-num">2</div>
-        <div class="setup-content">
-          <div class="setup-step-title">部署並設定 Webhook</div>
-          <div class="setup-step-desc">
-            部署為「網頁應用程式」（執行身分：我，存取：所有人）→
-            複製網址 → 貼回 LINE Developers 的 Webhook URL →
-            加機器人好友傳一則訊息取得 User ID。
-          </div>
-        </div>
-      </div>
-      <div class="setup-step">
-        <div class="setup-num">3</div>
-        <div class="setup-content">
-          <div class="setup-step-title">詳細步驟</div>
-          <div class="setup-step-desc">
-            請參閱資料夾內的 <strong>設定說明書.md</strong>，
-            有完整圖文教學，約 15 分鐘完成設定。
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- 輸入欄 -->
-    <div class="token-input-group">
-      <div class="form-group">
-        <label>Google Apps Script 網址 <span class="req">*</span></label>
-        <input type="text" id="gasUrl" placeholder="https://script.google.com/macros/s/...">
-        <div class="input-hint">部署後複製貼上，以 /exec 結尾</div>
-      </div>
-      <button class="btn btn-submit" style="width:100%;padding:15px;border-radius:12px;
-              font-size:15px;font-weight:700;border:none;cursor:pointer;font-family:inherit"
-              onclick="saveSetup()">✅ 儲存設定，開始使用</button>
-      <div style="text-align:center;margin-top:12px;">
-        <span style="font-size:12px;color:var(--muted);cursor:pointer;
-                     text-decoration:underline" onclick="skipSetup()">
-          先略過，稍後再設定
-        </span>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- ── 載入中 ── -->
 <div class="loading-overlay hidden" id="loadingOverlay">
   <div class="spinner"></div>
   <div class="loading-text">正在送出報名資料…</div>
 </div>
 
-<!-- ── Toast ── -->
 <div class="toast" id="toast"></div>
 
 <script>
-// ── 狀態 ──────────────────────────────────────
 let currentStep = 1;
 const TOTAL_STEPS = 4;
 let selectedCat  = '';
 let selectedSize = '';
 
-// ── 設定 ─────────────────────────────────────
-const HARDCODED_GAS_URL = 'https://script.google.com/macros/s/AKfycbwnswwPl7oBh3WJgOvDTsiXFvlBmf87vsJUJHqUdsBS7z-ITfiAyiqSjn_ov27V5qio/exec
-'; 
+// ── 後台網址設定 (已寫死，不會再跳設定視窗) ──
+const HARDCODED_GAS_URL = 'https://script.google.com/macros/s/AKfycbwnswwPl7oBh3WJgOvDTsiXFvlBmf87vsJUJHqUdsBS7z-ITfiAyiqSjn_ov27V5qio/exec';
 
 function getGasUrl() { return HARDCODED_GAS_URL; }
-function saveSetup() {
-  const url = document.getElementById('gasUrl').value.trim();
-  if (!url || !url.startsWith('https://script.google.com')) {
-    showToast('⚠️ 請輸入正確的 Google Apps Script 網址');
-    return;
-  }
-  localStorage.setItem(GAS_URL_KEY, url);
-  document.getElementById('setupModal').classList.add('hidden');
-  showToast('✅ 設定完成！');
-}
-function skipSetup() {
-  document.getElementById('setupModal').classList.add('hidden');
-  showToast('⚠️ 未設定後台，報名資料將無法儲存');
-}
 
-// ── 初始化 ────────────────────────────────────
+// ── 初始化 ──
 window.addEventListener('DOMContentLoaded', () => {
-  // 已經寫死網址，所以不需要再跳出設定視窗
-  /* if (!getGasUrl()) {
-    document.getElementById('setupModal').classList.remove('hidden');
-  }
-  */  // 類別選擇
+  // 類別選擇
   document.querySelectorAll('.cat-item').forEach(el => {
     el.addEventListener('click', () => {
       document.querySelectorAll('.cat-item').forEach(e => e.classList.remove('selected'));
@@ -636,24 +349,17 @@ window.addEventListener('DOMContentLoaded', () => {
   });
 });
 
-// ── 進度更新 ──────────────────────────────────
 function updateProgress(step) {
   document.getElementById('progressFill').style.width = (step / TOTAL_STEPS * 100) + '%';
   for (let i = 1; i <= 4; i++) {
     document.getElementById('lbl' + i).className = 'step-label' + (i === step ? ' active' : '');
   }
-  document.getElementById('btnBack').style.display  = step > 1 ? 'flex' : 'none';
+  document.getElementById('btnBack').style.display = step > 1 ? 'flex' : 'none';
   const btnNext = document.getElementById('btnNext');
-  if (step === 4) {
-    btnNext.textContent = '🚀 確認送出報名';
-    btnNext.className = 'btn btn-submit';
-  } else {
-    btnNext.textContent = '下一步 →';
-    btnNext.className = 'btn btn-main';
-  }
+  btnNext.textContent = step === 4 ? '🚀 確認送出報名' : '下一步 →';
+  btnNext.className = step === 4 ? 'btn btn-submit' : 'btn btn-main';
 }
 
-// ── 驗證 ──────────────────────────────────────
 function validateStep(step) {
   let ok = true;
   const req = (id, fgId) => {
@@ -665,138 +371,88 @@ function validateStep(step) {
   if (step === 1) {
     req('businessName','fg-businessName');
     req('contactName','fg-contactName');
-    const ph = document.getElementById('phone').value.trim();
-    const fg = document.getElementById('fg-phone');
-    if (!/^09\d{8}$/.test(ph.replace(/[-\s]/g,''))) { fg.classList.add('has-error'); ok = false; }
-    else fg.classList.remove('has-error');
+    if (!/^09\d{8}$/.test(document.getElementById('phone').value.replace(/[-\s]/g,''))) { 
+      document.getElementById('fg-phone').classList.add('has-error'); ok = false; 
+    } else document.getElementById('fg-phone').classList.remove('has-error');
   }
   if (step === 2) {
-    if (!selectedCat)  { document.getElementById('catError').style.display='block';  ok=false; }
+    if (!selectedCat) { document.getElementById('catError').style.display='block'; ok=false; }
     if (!selectedSize) { document.getElementById('sizeError').style.display='block'; ok=false; }
   }
   if (step === 3) {
-    const rv = document.getElementById('estimatedRevenue').value;
-    const pd = document.getElementById('productDesc').value.trim();
-    const df = document.getElementById('preferredDates').value;
-    if (!rv||!pd||!df) { ok=false; showToast('⚠️ 請填寫所有必填欄位'); }
+    if (!document.getElementById('estimatedRevenue').value || !document.getElementById('productDesc').value.trim()) {
+      showToast('⚠️ 請填寫必填欄位'); ok=false;
+    }
   }
   return ok;
 }
 
-// ── 生成確認摘要 ──────────────────────────────
 function buildSummary() {
   const equip = [...document.querySelectorAll('input[name=equip]:checked')].map(e=>e.value).join('、') || '無';
   const rows = [
     ['攤商名稱', document.getElementById('businessName').value],
-    ['聯絡人',   document.getElementById('contactName').value],
-    ['手機',     document.getElementById('phone').value],
-    ['LINE ID',  document.getElementById('lineId').value || '未填寫'],
-    ['攤商類別', selectedCat],
-    ['攤位尺寸', selectedSize],
-    ['出攤日期', document.getElementById('preferredDates').value],
-    ['預估日營業額', document.getElementById('estimatedRevenue').value],
-    ['使用設備', equip],
-    ['商品簡介', document.getElementById('productDesc').value.substring(0,50)+(document.getElementById('productDesc').value.length>50?'…':'')],
+    ['聯絡人', document.getElementById('contactName').value],
+    ['手機', document.getElementById('phone').value],
+    ['類別', selectedCat],
+    ['尺寸', selectedSize],
+    ['日期', document.getElementById('preferredDates').value],
+    ['設備', equip]
   ];
-  return rows.map(([k,v]) =>
-    `<div class="summary-row"><span class="summary-key">${k}</span><span class="summary-val">${v}</span></div>`
-  ).join('');
+  return rows.map(([k,v]) => `<div class="summary-row"><span class="summary-key">${k}</span><span class="summary-val">${v}</span></div>`).join('');
 }
 
-// ── 導航 ──────────────────────────────────────
 function nextStep() {
   if (!validateStep(currentStep)) return;
   if (currentStep === 4) { submitForm(); return; }
   document.getElementById('step'+currentStep).classList.remove('active');
   currentStep++;
   document.getElementById('step'+currentStep).classList.add('active');
-  if (currentStep === 4) {
-    document.getElementById('summaryContent').innerHTML = buildSummary();
-  }
+  if (currentStep === 4) document.getElementById('summaryContent').innerHTML = buildSummary();
   updateProgress(currentStep);
   window.scrollTo({top:0, behavior:'smooth'});
 }
+
 function prevStep() {
-  if (currentStep <= 1) return;
   document.getElementById('step'+currentStep).classList.remove('active');
   currentStep--;
   document.getElementById('step'+currentStep).classList.add('active');
   updateProgress(currentStep);
-  window.scrollTo({top:0, behavior:'smooth'});
 }
 
-// ── 送出 ──────────────────────────────────────
 async function submitForm() {
   const gasUrl = getGasUrl();
-  const equip  = [...document.querySelectorAll('input[name=equip]:checked')].map(e=>e.value);
-  const appId  = 'KD-' + Date.now().toString(36).toUpperCase();
+  const appId = 'KD-' + Date.now().toString(36).toUpperCase();
   const payload = {
     appId,
-    businessName:      document.getElementById('businessName').value.trim(),
-    contactName:       document.getElementById('contactName').value.trim(),
-    phone:             document.getElementById('phone').value.trim(),
-    lineId:            document.getElementById('lineId').value.trim(),
-    email:             document.getElementById('email').value.trim(),
-    category:          selectedCat,
-    stallSize:         selectedSize,
-    preferredDates:    document.getElementById('preferredDates').value,
-    estimatedRevenue:  document.getElementById('estimatedRevenue').value,
-    equipment:         equip.join('、'),
-    productDesc:       document.getElementById('productDesc').value.trim(),
-    notes:             document.getElementById('notes').value.trim(),
+    businessName: document.getElementById('businessName').value.trim(),
+    contactName: document.getElementById('contactName').value.trim(),
+    phone: document.getElementById('phone').value.trim(),
+    lineId: document.getElementById('lineId').value.trim(),
+    category: selectedCat,
+    stallSize: selectedSize,
+    preferredDates: document.getElementById('preferredDates').value,
+    estimatedRevenue: document.getElementById('estimatedRevenue').value,
+    productDesc: document.getElementById('productDesc').value.trim()
   };
 
   document.getElementById('loadingOverlay').classList.remove('hidden');
-
   try {
-    if (gasUrl) {
-      await fetch(gasUrl, {
-        method: 'POST',
-        mode: 'no-cors',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
-      });
-    }
-    // 顯示成功畫面
+    await fetch(gasUrl, { method: 'POST', mode: 'no-cors', body: JSON.stringify(payload) });
     document.getElementById('loadingOverlay').classList.add('hidden');
     document.getElementById('btnRow').style.display = 'none';
     document.getElementById('step4').classList.remove('active');
     document.getElementById('success-screen').style.display = 'block';
     document.getElementById('appIdDisplay').textContent = '報名編號：' + appId;
-    window.scrollTo({top:0, behavior:'smooth'});
   } catch(err) {
     document.getElementById('loadingOverlay').classList.add('hidden');
-    // 即使 fetch 失敗（no-cors 模式不會報錯），仍顯示成功
-    document.getElementById('btnRow').style.display = 'none';
-    document.getElementById('step4').classList.remove('active');
-    document.getElementById('success-screen').style.display = 'block';
-    document.getElementById('appIdDisplay').textContent = '報名編號：' + appId;
-    window.scrollTo({top:0, behavior:'smooth'});
+    showToast('連線失敗，請檢查網路');
   }
 }
 
-// ── 重置 ──────────────────────────────────────
-function resetForm() {
-  currentStep = 1; selectedCat = ''; selectedSize = '';
-  document.querySelectorAll('.cat-item,.size-item').forEach(e=>e.classList.remove('selected'));
-  document.querySelectorAll('input[name=equip]').forEach(e=>e.checked=false);
-  ['businessName','contactName','phone','lineId','email','productDesc','notes'].forEach(id=>{
-    document.getElementById(id).value='';
-  });
-  ['estimatedRevenue','preferredDates'].forEach(id=>{ document.getElementById(id).selectedIndex=0; });
-  document.querySelectorAll('.has-error').forEach(e=>e.classList.remove('has-error'));
-  document.getElementById('success-screen').style.display = 'none';
-  document.getElementById('btnRow').style.display = 'flex';
-  document.getElementById('step1').classList.add('active');
-  updateProgress(1);
-  window.scrollTo({top:0,behavior:'smooth'});
-}
-
-// ── Toast ─────────────────────────────────────
+function resetForm() { location.reload(); }
 function showToast(msg) {
   const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.classList.add('show');
+  t.textContent = msg; t.classList.add('show');
   setTimeout(()=>t.classList.remove('show'), 2800);
 }
 </script>
