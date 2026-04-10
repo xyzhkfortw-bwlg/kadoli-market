@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>卡多里時光森林 × 攤商報名</title>
+<style>
+:root {
+  --forest-bg: #0A1A12;
+  --forest-card: rgba(20, 40, 30, 0.7);
+  --gold: #D4AF37;
+  --gold-glow: rgba(212, 175, 55, 0.4);
+  --text-main: #E0E8E3;
+  --text-muted: #88A090;
+  --danger: #FF6B6B;
+  --radius: 16px;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+body { 
+  font-family: -apple-system, "Noto Sans TC", sans-serif;
+  background: var(--forest-bg);
+  background-image: radial-gradient(circle at top right, #153024 0%, #0A1A12 100%);
+  color: var(--text-main); 
+  line-height: 1.6;
+}
+
+/* ── 手機版 Hero ── */
+.hero { padding: 45px 20px 25px; text-align: center; }
+.hero-logo { font-size: 12px; color: var(--gold); letter-spacing: 4px; margin-bottom: 8px; font-weight: bold; }
+.hero-title { font-size: 26px; font-weight: 800; color: #FFF; text-shadow: 0 0 15px var(--gold-glow); }
+.hero-title span { color: var(--gold); }
+
+/* ── 進度條 ── */
+.progress-wrap { padding: 0 30px 25px; }
+.progress-bar { background: rgba(255,255,255,0.1); border-radius: 10px; height: 4px; }
+.progress-fill { height: 100%; border-radius: 10px; background: var(--gold); box-shadow: 0 0 8px var(--gold); transition: width .4s ease; }
+.step-labels { display: flex; justify-content: space-between; margin-top: 12px; }
+.step-label { font-size: 11px; color: var(--text-muted); }
+.step-label.active { color: var(--gold); font-weight: bold; }
+
+/* ── 招商亮點卡片 ── */
+.info-banner {
+  margin: 0 20px 20px; padding: 20px;
+  background: linear-gradient(135deg, rgba(212,175,55,0.15), transparent);
+  border: 1px solid var(--gold-glow); border-radius: var(--radius);
+}
+.info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 10px; }
+.info-item { font-size: 13px; color: var(--text-main); border-left: 2px solid var(--gold); padding-left: 10px; }
+.info-item small { display: block; color: var(--gold); font-weight: bold; font-size: 11px; }
+
+/* ── 表單卡片 ── */
+.card { 
+  background: var(--forest-card); margin: 0 16px 20px; padding: 24px;
+  border-radius: var(--radius); border: 1px solid rgba(255,255,255,0.05);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+.card-title { font-size: 16px; font-weight: bold; color: var(--gold); margin-bottom: 20px; display: flex; align-items: center; gap: 8px; }
+.card-title::before { content:''; width:4px; height:16px; background: var(--gold); border-radius: 2px; }
+
+/* ── 輸入框樣式 ── */
+.form-group { margin-bottom: 20px; }
+label { display: block; font-size: 13px; margin-bottom: 8px; color: var(--text-muted); }
+label .req { color: var(--danger); }
+input, select, textarea {
+  width: 100%; padding: 14px; background: rgba(0,0,0,0.3);
+  border: 1px solid rgba(255,255,255,0.15); border-radius: 10px;
+  color: #FFF; font-size: 16px; /* 防止 iOS 自動縮放 */
+}
+input:focus { outline: none; border-color: var(--gold); background: rgba(0,0,0,0.5); }
+
+/* ── 選擇格 ── */
+.grid-select { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.option-box { 
+  background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1);
+  padding: 15px 10px; text-align: center; border-radius: 12px; transition: 0.3s;
+}
+.option-box.selected { border-color: var(--gold); background: rgba(212,175,55,0.1); color: var(--gold); }
+.option-box i { display: block; font-size: 20px; margin-bottom: 5px; font-style: normal; }
+
+/* ── 複選框 ── */
+.check-item { 
+  display: flex; align-items: center; gap: 12px; padding: 14px; 
+  background: rgba(255,255,255,0.03); border-radius: 10px; margin-bottom: 10px;
+}
+.check-item input { width: 20px; height: 20px; accent-color: var(--gold); }
+
+/* ── 按鈕 ── */
+.btn-row { padding: 10px 20px 50px; display: flex; gap: 12px; }
+.btn { flex: 1; padding: 16px; border-radius: 30px; border: none; font-size: 16px; font-weight: bold; }
+.btn-main { background: linear-gradient(to right, #D4AF37, #F9E29D); color: #2A1F07; box-shadow: 0 5px 15px rgba(212,175,55,0.3); }
+.btn-back { background: rgba(255,255,255,0.1); color: #FFF; }
+
+.step-page { display: none; }
+.step-page.active { display: block; animation: fadeInUp 0.4s ease-out; }
+@keyframes fadeInUp { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+
+.error-msg { color: var(--danger); font-size: 11px; margin-top: 5px; display: none; }
+.has-error input { border-color: var(--danger); }
+.has-error .error-msg { display: block; }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-logo">🌲 KADORI TIME FOREST</div>
+  <div class="hero-title">卡多里<span>時光森林</span>市集</div>
+</div>
+
+<div class="progress-wrap">
+  <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:25%"></div></div>
+  <div class="step-labels">
+    <span class="step-label active" id="lbl1">基本資料</span>
+    <span class="step-label" id="lbl2">類別需求</span>
+    <span class="step-label" id="lbl3">營運說明</span>
+    <span class="step-label" id="lbl4">確認送出</span>
+  </div>
+</div>
+
+<div class="step-page active" id="step1">
+  <div class="info-banner">
+    <div class="info-grid">
+      <div class="info-item"><small>進駐優勢：</small>因名額有限，採取擇優錄取制，「免場租」低門檻策略，大幅降低進駐風險。</div>
+<div class="info-item"><small>合作模式：</small>採審核制與「合作分潤模式」，強調共享收益、營造互惠生態圈。</div>
+      <div class="info-item"><small>流量核心：</small>坐落大坑核心精華地段，匯聚假日逾 2,000 人次之強勁人流。憑藉優越地利優勢，精準捕捉高品質消費族群，將自然流量轉化為品牌爆發力。</div>
+<div class="info-item"><small>精準客群：</small>匯聚露營愛好者、親子家庭與社群焦點，讓大坑的人氣成為您的商機。加入我們，一起將萬人流量轉化為品牌實力！。</div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">聯繫方式</div>
+    <div class="form-group" id="fg-businessName">
+      <label>品牌名稱 <span class="req">*</span></label>
+      <input type="text" id="businessName" placeholder="例：山林野炊咖啡">
+      <div class="error-msg">請輸入品牌名稱</div>
+    </div>
+    <div class="form-group" id="fg-contactName">
+      <label>聯絡人姓名 <span class="req">*</span></label>
+      <input type="text" id="contactName" placeholder="請輸入姓名">
+    </div>
+    <div class="form-group" id="fg-phone">
+      <label>手機號碼 <span class="req">*</span></label>
+      <input type="tel" id="phone" placeholder="09XX-XXX-XXX">
+    </div>
+    <div class="form-group">
+      <label>LINE ID</label>
+      <input type="text" id="lineId" placeholder="方便後續聯繫">
+    </div>
+    <div class="form-group">
+      <label>電子信箱</label>
+      <input type="email" id="email" placeholder="接收審核通知">
+    </div>
+  </div>
+</div>
+
+<div class="step-page" id="step2">
+  <div class="card">
+    <div class="card-title">選擇類別</div>
+    <div class="grid-select" id="catGrid">
+      <div class="option-box" data-cat="🏕️ 露營裝備"><i>🏕️</i>露營裝備</div>
+      <div class="option-box" data-cat="🍳 戶外料理"><i>🍳</i>戶外料理</div>
+      <div class="option-box" data-cat="☕ 咖啡茶飲"><i>☕</i>咖啡茶飲</div>
+      <div class="option-box" data-cat="🌿 有機農產"><i>🌿</i>有機農產</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">尺寸與設備需求</div>
+    <label>攤位尺寸</label>
+    <div class="grid-select" style="margin-bottom:20px;">
+      <div class="option-box size-opt" data-size="標準(3x3m)">標準 3x3m</div>
+      <div class="option-box size-opt" data-size="加大(3x4.5m)">加大 4.5m</div>
+      <div class="option-box size-opt" data-size="餐車位">餐車位</div>
+      <div class="option-box size-opt" data-size="特殊尺寸">特殊需求</div>
+    </div>
+    
+    <label>設備需求 (複選)</label>
+    <label class="check-item">
+      <input type="checkbox" name="equip" value="⚡ 需要用電"> ⚡ 需要用電 (基礎電力)
+    </label>
+    <label class="check-item">
+      <input type="checkbox" name="equip" value="💧 需要用水"> 💧 需要用水 (公設水源)
+    </label>
+  </div>
+</div>
+
+<div class="step-page" id="step3">
+  <div class="card">
+    <div class="card-title">營運資訊</div>
+    <div class="form-group">
+      <label>出攤日期需求 <span class="req">*</span></label>
+      <select id="preferredDates">
+        <option value="">請選擇</option>
+        <option value="每週六、日">每週六、日</option>
+        <option value="僅週六">僅週六</option>
+        <option value="僅週日">僅週日</option>
+        <option value="彈性配合">彈性配合</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>預估每日營業額 <span class="req">*</span></label>
+      <select id="estimatedRevenue">
+        <option value="">請選擇金額區間</option>
+        <option value="5,000元以下">5,000元以下</option>
+        <option value="5,000－10,000元">5,000－10,000元</option>
+        <option value="10,000元以上">10,000元以上</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>商品簡介 <span class="req">*</span></label>
+      <textarea id="productDesc" rows="4" placeholder="請簡述您的特色商品..."></textarea>
+    </div>
+    <div class="form-group">
+      <label>其他備註 (選填)</label>
+      <textarea id="notes" rows="2" placeholder="特殊需求或想對我們說的話"></textarea>
+    </div>
+  </div>
+</div>
+
+<div class="step-page" id="step4">
+  <div class="card">
+    <div class="card-title">資料確認</div>
+    <div id="summaryContent" style="font-size:14px; line-height:2;">
+      </div>
+  </div>
+</div>
+
+<div class="btn-row">
+  <button class="btn btn-back" id="btnBack" onclick="prevStep()" style="display:none">上一步</button>
+  <button class="btn btn-main" id="btnNext" onclick="nextStep()">下一步</button>
+</div>
+
+<script>
+let currentStep = 1;
+const TOTAL_STEPS = 4;
+let selectedCat = '';
+let selectedSize = '';
+
+// 類別選擇邏輯
+document.querySelectorAll('#catGrid .option-box').forEach(el => {
+  el.addEventListener('click', () => {
+    document.querySelectorAll('#catGrid .option-box').forEach(e => e.classList.remove('selected'));
+    el.classList.add('selected');
+    selectedCat = el.dataset.cat;
+  });
+});
+
+// 尺寸選擇邏輯
+document.querySelectorAll('.size-opt').forEach(el => {
+  el.addEventListener('click', () => {
+    document.querySelectorAll('.size-opt').forEach(e => e.classList.remove('selected'));
+    el.classList.add('selected');
+    selectedSize = el.dataset.size;
+  });
+});
+
+function updateUI() {
+  document.getElementById('progressFill').style.width = (currentStep / TOTAL_STEPS * 100) + '%';
+  document.getElementById('btnBack').style.display = currentStep > 1 ? 'block' : 'none';
+  const btnNext = document.getElementById('btnNext');
+  btnNext.textContent = currentStep === 4 ? '🚀 確認送出報名' : '下一步';
+  
+  for (let i = 1; i <= 4; i++) {
+    document.getElementById('lbl' + i).classList.toggle('active', i === currentStep);
+  }
+}
+
+function nextStep() {
+  if (currentStep === 1) {
+    if (!document.getElementById('businessName').value || !document.getElementById('phone').value) {
+      alert("請填寫品牌名稱與手機號碼"); return;
+    }
+  }
+  
+  if (currentStep === 4) {
+    alert("報名資料已準備送出！");
+    // 這裡接入您的 GAS submitForm() 函數
+    return;
+  }
+
+  document.getElementById('step' + currentStep).classList.remove('active');
+  currentStep++;
+  document.getElementById('step' + currentStep).classList.add('active');
+  
+  if (currentStep === 4) {
+    const equip = [...document.querySelectorAll('input[name=equip]:checked')].map(e=>e.value).join(', ') || '無';
+    document.getElementById('summaryContent').innerHTML = `
+      <p style="border-bottom:1px solid rgba(255,255,255,0.1)"><b>品牌：</b> ${document.getElementById('businessName').value}</p>
+      <p style="border-bottom:1px solid rgba(255,255,255,0.1)"><b>聯絡人：</b> ${document.getElementById('contactName').value}</p>
+      <p style="border-bottom:1px solid rgba(255,255,255,0.1)"><b>類別：</b> ${selectedCat}</p>
+      <p style="border-bottom:1px solid rgba(255,255,255,0.1)"><b>尺寸：</b> ${selectedSize}</p>
+      <p style="border-bottom:1px solid rgba(255,255,255,0.1)"><b>設備：</b> ${equip}</p>
+      <p><b>預估營收：</b> ${document.getElementById('estimatedRevenue').value}</p>
+    `;
+  }
+  updateUI();
+  window.scrollTo(0,0);
+}
+
+function prevStep() {
+  document.getElementById('step' + currentStep).classList.remove('active');
+  currentStep--;
+  document.getElementById('step' + currentStep).classList.add('active');
+  updateUI();
+}
+</script>
+
+</body>
+</html>
