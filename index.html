@@ -19,16 +19,15 @@
 * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
 
 body { 
-  font-family: -apple-system, "Noto Sans TC", sans-serif;
+  font-family: -apple-system, "Noto Sans TC", "Microsoft JhengHei", sans-serif;
   background: var(--forest-bg);
   background-image: radial-gradient(circle at top right, #153024 0%, #0A1A12 100%);
   color: var(--text-main); 
   line-height: 1.6;
-  min-height: 100vh;
 }
 
-/* ── 手機版 Hero ── */
-.hero { padding: 45px 20px 25px; text-align: center; }
+/* ── Hero ── */
+.hero { padding: 40px 20px 20px; text-align: center; }
 .hero-logo { font-size: 12px; color: var(--gold); letter-spacing: 4px; margin-bottom: 8px; font-weight: bold; }
 .hero-title { font-size: 26px; font-weight: 800; color: #FFF; text-shadow: 0 0 15px var(--gold-glow); }
 .hero-title span { color: var(--gold); }
@@ -38,102 +37,84 @@ body {
 .progress-bar { background: rgba(255,255,255,0.1); border-radius: 10px; height: 4px; }
 .progress-fill { height: 100%; border-radius: 10px; background: var(--gold); box-shadow: 0 0 8px var(--gold); transition: width .4s ease; }
 .step-labels { display: flex; justify-content: space-between; margin-top: 12px; }
-.step-label { font-size: 11px; color: var(--text-muted); }
-.step-label.active { color: var(--gold); font-weight: bold; }
+.step-label { font-size: 11px; color: var(--text-muted); transition: 0.3s; }
+.step-label.active { color: var(--gold); font-weight: bold; transform: scale(1.1); }
 
-/* ── 資訊區 ── */
+/* ── 介紹區 (固定顯示) ── */
 .info-banner {
-  margin: 0 20px 20px; padding: 20px;
-  background: linear-gradient(135deg, rgba(212,175,55,0.15), transparent);
+  margin: 0 16px 20px; padding: 18px;
+  background: linear-gradient(135deg, rgba(212,175,55,0.12), rgba(10,26,18,0.5));
   border: 1px solid var(--gold-glow); border-radius: var(--radius);
 }
-.info-grid { display: grid; grid-template-columns: 1fr; gap: 15px; margin-top: 10px; }
-.info-item { font-size: 13px; color: var(--text-main); border-left: 2px solid var(--gold); padding-left: 10px; }
-.info-item small { display: block; color: var(--gold); font-weight: bold; font-size: 11px; }
+.info-grid { display: grid; grid-template-columns: 1fr; gap: 12px; }
+.info-item { font-size: 13px; color: var(--text-main); border-left: 3px solid var(--gold); padding-left: 12px; }
+.info-item small { display: block; color: var(--gold); font-weight: bold; font-size: 11px; margin-bottom: 2px; }
 
 /* ── 表單卡片 ── */
 .card { 
   background: var(--forest-card); margin: 0 16px 20px; padding: 24px;
   border-radius: var(--radius); border: 1px solid rgba(255,255,255,0.05);
-  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5); backdrop-filter: blur(10px);
 }
 .card-title { font-size: 16px; font-weight: bold; color: var(--gold); margin-bottom: 20px; display: flex; align-items: center; gap: 8px; }
 .card-title::before { content:''; width:4px; height:16px; background: var(--gold); border-radius: 2px; }
 
-/* ── 輸入框樣式 ── */
-.form-group { margin-bottom: 20px; position: relative; }
-label { display: block; font-size: 13px; margin-bottom: 8px; color: var(--text-muted); }
-label .req { color: var(--danger); }
-input, select, textarea {
-  width: 100%; padding: 14px; background: rgba(0,0,0,0.3);
-  border: 1px solid rgba(255,255,255,0.15); border-radius: 10px;
-  color: #FFF; font-size: 16px;
-}
-input:focus { outline: none; border-color: var(--gold); background: rgba(0,0,0,0.5); }
-.input-hint { font-size: 11px; color: var(--text-muted); margin-top: 5px; }
-
-/* ── 類別與尺寸選擇格 (修正重點) ── */
+/* ── 類別與尺寸格 ── */
 .cat-grid, .size-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
 .cat-item, .size-item {
   background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.1);
   padding: 15px 10px; text-align: center; border-radius: 12px; transition: 0.3s; cursor: pointer;
 }
 .cat-item.selected, .size-item.selected { 
-  border-color: var(--gold); background: rgba(212, 175, 55, 0.15); color: var(--gold); 
+  border-color: var(--gold); background: rgba(212, 175, 55, 0.15); color: var(--gold); box-shadow: 0 0 10px var(--gold-glow);
 }
 .cat-icon { font-size: 24px; margin-bottom: 5px; }
 .cat-name, .size-name { font-weight: bold; font-size: 14px; }
-.size-dim { font-size: 11px; opacity: 0.7; }
+.size-dim { font-size: 11px; opacity: 0.6; }
+
+/* ── 通用輸入 ── */
+.form-group { margin-bottom: 20px; }
+label { display: block; font-size: 13px; margin-bottom: 8px; color: var(--text-muted); }
+.req { color: var(--danger); margin-left: 2px; }
+input, select, textarea {
+  width: 100%; padding: 14px; background: rgba(0,0,0,0.4);
+  border: 1px solid rgba(255,255,255,0.15); border-radius: 10px;
+  color: #FFF; font-size: 16px; transition: 0.3s;
+}
+input:focus, select:focus, textarea:focus { outline: none; border-color: var(--gold); background: rgba(0,0,0,0.6); }
 
 /* ── 複選框 ── */
 .check-item { 
   display: flex; align-items: center; gap: 12px; padding: 14px; 
-  background: rgba(255,255,255,0.03); border-radius: 10px; margin-bottom: 10px;
+  background: rgba(255,255,255,0.03); border-radius: 10px; margin-bottom: 10px; cursor: pointer;
 }
-.check-item input { width: 20px; height: 20px; accent-color: var(--gold); }
-
-/* ── 抽成區 ── */
-.commission-box {
-  background: rgba(212,175,55,0.1); border: 1px dashed var(--gold);
-  padding: 15px; border-radius: 12px; text-align: center; margin-bottom: 20px;
-}
-.commission-pct { font-size: 24px; font-weight: 800; color: var(--gold); }
-.commission-label { font-size: 12px; color: var(--text-muted); }
-
-/* ── 摘要 ── */
-.summary-row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
-.summary-key { color: var(--text-muted); font-size: 14px; }
-.summary-val { color: #FFF; font-weight: 500; text-align: right; }
+.check-item input { width: 18px; height: 18px; accent-color: var(--gold); }
 
 /* ── 按鈕 ── */
-.btn-row { padding: 10px 20px 50px; display: flex; gap: 12px; }
-.btn { flex: 1; padding: 16px; border-radius: 30px; border: none; font-size: 16px; font-weight: bold; cursor: pointer; }
+.btn-row { padding: 10px 20px 60px; display: flex; gap: 12px; }
+.btn { flex: 1; padding: 16px; border-radius: 30px; border: none; font-size: 16px; font-weight: bold; cursor: pointer; transition: 0.3s; }
 .btn-main { background: linear-gradient(to right, #D4AF37, #F9E29D); color: #2A1F07; }
 .btn-back { background: rgba(255,255,255,0.1); color: #FFF; }
+.btn:active { transform: scale(0.98); opacity: 0.9; }
 
 /* ── 狀態控制 ── */
 .step-page { display: none; }
 .step-page.active { display: block; animation: fadeInUp 0.4s ease-out; }
-@keyframes fadeInUp { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes fadeInUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
 .error-msg { color: var(--danger); font-size: 11px; margin-top: 5px; display: none; }
-.has-error input, .has-error select, .has-error textarea { border-color: var(--danger); }
+.has-error input { border-color: var(--danger); }
 .has-error .error-msg { display: block; }
 
-/* ── 成功畫面與 Loading ── */
+/* ── 成功與載入 ── */
 #success-screen { display: none; text-align: center; padding: 60px 20px; }
-.success-icon { font-size: 60px; margin-bottom: 20px; }
-.loading-overlay { 
-  position: fixed; inset: 0; background: rgba(0,0,0,0.8); 
-  display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 100; 
-}
+.loading-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.85); display: flex; justify-content: center; align-items: center; z-index: 100; color: var(--gold); font-weight: bold; }
 .hidden { display: none; }
-.toast {
-  position: fixed; bottom: 100px; left: 50%; transform: translateX(-50%);
-  background: var(--danger); color: white; padding: 10px 20px; border-radius: 20px;
-  font-size: 14px; opacity: 0; transition: 0.3s; z-index: 1000;
-}
+.toast { position: fixed; bottom: 110px; left: 50%; transform: translateX(-50%); background: var(--danger); color: white; padding: 8px 20px; border-radius: 20px; font-size: 13px; opacity: 0; transition: 0.3s; z-index: 1000; pointer-events: none; }
 .toast.show { opacity: 1; }
+
+.summary-row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 14px; }
+.summary-key { color: var(--text-muted); }
 </style>
 </head>
 <body>
@@ -153,19 +134,21 @@ input:focus { outline: none; border-color: var(--gold); background: rgba(0,0,0,0
   </div>
 </div>
 
-<div class="step-page active" id="step1">
+<div id="introArea">
   <div class="info-banner">
     <div class="info-grid">
-      <div class="info-item"><small>進駐優勢：</small>「免場租」低門檻，採擇優錄取制，降低進駐風險。</div>
-      <div class="info-item"><small>合作模式：</small>審核制與「合作分潤」，共享收益互惠。</div>
+      <div class="info-item"><small>進駐優勢：</small>因名額有限，採取擇優錄取制，「免場租」低門檻策略，大幅降低進駐風險。</div>
+      <div class="info-item"><small>流量核心：</small>坐落大坑核心精華地段，匯聚假日逾 2,000 人次之強勁人流。</div>
     </div>
   </div>
+</div>
 
+<div class="step-page active" id="step1">
   <div class="card">
     <div class="card-title">基本聯絡資料</div>
     <div class="form-group" id="fg-businessName">
       <label>攤商/品牌名稱 <span class="req">*</span></label>
-      <input type="text" id="businessName" placeholder="例：山林野炊">
+      <input type="text" id="businessName" placeholder="例：山林野炊、露營裝備屋">
       <div class="error-msg">請輸入攤商名稱</div>
     </div>
     <div class="form-group" id="fg-contactName">
@@ -179,12 +162,8 @@ input:focus { outline: none; border-color: var(--gold); background: rgba(0,0,0,0
       <div class="error-msg">請輸入有效 10 位手機號碼</div>
     </div>
     <div class="form-group">
-      <label>LINE ID</label>
-      <input type="text" id="lineId" placeholder="請輸入 LINE ID">
-    </div>
-    <div class="form-group">
-      <label>電子信箱</label>
-      <input type="email" id="email" placeholder="用於寄送結果通知">
+      <label>LINE ID / 電子信箱</label>
+      <input type="text" id="lineEmail" placeholder="方便我們與您聯絡">
     </div>
   </div>
 </div>
@@ -194,53 +173,31 @@ input:focus { outline: none; border-color: var(--gold); background: rgba(0,0,0,0
     <div class="card-title">選擇攤商類別 <span class="req">*</span></div>
     <div class="cat-grid">
       <div class="cat-item" data-cat="🏕️ 露營裝備"><div class="cat-icon">🏕️</div><div class="cat-name">露營裝備</div></div>
-      <div class="cat-item" data-cat="🍳 戶外料理美食"><div class="cat-icon">🍳</div><div class="cat-name">戶外料理</div></div>
+      <div class="cat-item" data-cat="🍳 戶外美食"><div class="cat-icon">🍳</div><div class="cat-name">戶外美食</div></div>
       <div class="cat-item" data-cat="☕ 咖啡茶飲"><div class="cat-icon">☕</div><div class="cat-name">咖啡茶飲</div></div>
-      <div class="cat-item" data-cat="🌿 有機農產品"><div class="cat-icon">🌿</div><div class="cat-name">農產品</div></div>
-      <div class="cat-item" data-cat="🔧 車宿周邊配件"><div class="cat-icon">🔧</div><div class="cat-name">車宿配件</div></div>
-      <div class="cat-item" data-cat="🧺 手作體驗工藝"><div class="cat-icon">🧺</div><div class="cat-name">手作工藝</div></div>
+      <div class="cat-item" data-cat="🌿 農產品"><div class="cat-icon">🌿</div><div class="cat-name">農產品</div></div>
+      <div class="cat-item" data-cat="🔧 車宿配件"><div class="cat-icon">🔧</div><div class="cat-name">車宿配件</div></div>
+      <div class="cat-item" data-cat="🧺 手作工藝"><div class="cat-icon">🧺</div><div class="cat-name">手作工藝</div></div>
     </div>
-    <div id="fg-cat" class="form-group" style="margin-top:10px;">
-      <div class="error-msg" id="catError">請選擇一項攤商類別</div>
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="card-title">使用設備需求</div>
-    <div class="checkbox-group">
-      <label class="check-item">
-        <input type="checkbox" name="equip" value="⚡ 需要用電">
-        <span>⚡ 需要用電 (提供基本電力)</span>
-      </label>
-      <label class="check-item">
-        <input type="checkbox" name="equip" value="💧 需要用水">
-        <span>💧 需要用水 (公設水源)</span>
-      </label>
-    </div>
+    <div class="error-msg" id="catError" style="text-align:center; margin-top:10px;">請選擇類別</div>
   </div>
 
   <div class="card">
     <div class="card-title">攤位尺寸需求 <span class="req">*</span></div>
     <div class="size-grid">
-      <div class="size-item" data-size="標準攤位（3×3m）"><div class="size-name">標準攤位</div><div class="size-dim">3 × 3m</div></div>
-      <div class="size-item" data-size="精選攤位（3×4.5m）"><div class="size-name">精選攤位</div><div class="size-dim">3 × 4.5m</div></div>
-      <div class="size-item" data-size="餐車/行動攤車停車格"><div class="size-name">餐車攤車</div><div class="size-dim">停車格</div></div>
+      <div class="size-item" data-size="標準攤位(3x3m)"><div class="size-name">標準攤位</div><div class="size-dim">3 × 3m</div></div>
+      <div class="size-item" data-size="精選攤位(3x4.5m)"><div class="size-name">精選攤位</div><div class="size-dim">3 × 4.5m</div></div>
+      <div class="size-item" data-size="餐車停車格"><div class="size-name">餐車攤車</div><div class="size-dim">停車格</div></div>
       <div class="size-item" data-size="其他需求"><div class="size-name">其他需求</div><div class="size-dim">特殊尺寸</div></div>
     </div>
-    <div id="fg-size" class="form-group" style="margin-top:10px;">
-      <div class="error-msg" id="sizeError">請選擇攤位尺寸</div>
-    </div>
+    <div class="error-msg" id="sizeError" style="text-align:center; margin-top:10px;">請選擇尺寸</div>
   </div>
 </div>
 
 <div class="step-page" id="step3">
   <div class="card">
-    <div class="card-title">營運資訊</div>
-    <div class="commission-box">
-      <div class="commission-pct">15%</div>
-      <div class="commission-label">每日營業額抽成</div>
-    </div>
-    <div class="form-group" id="fg-rev">
+    <div class="card-title">營運說明</div>
+    <div class="form-group">
       <label>預估每日營業額 <span class="req">*</span></label>
       <select id="estimatedRevenue">
         <option value="">請選擇</option>
@@ -249,25 +206,13 @@ input:focus { outline: none; border-color: var(--gold); background: rgba(0,0,0,0
         <option value="10,000元以上">10,000元以上</option>
       </select>
     </div>
-    <div class="form-group" id="fg-date">
-      <label>期望出攤日期 <span class="req">*</span></label>
-      <select id="preferredDates">
-        <option value="">請選擇</option>
-        <option value="每週六、日">每週六、日</option>
-        <option value="僅週六">僅週六</option>
-        <option value="僅週日">僅週日</option>
-        <option value="彈性配合">彈性配合</option>
-      </select>
-    </div>
-    <div class="form-group" id="fg-desc">
-      <label>商品／服務簡介 <span class="req">*</span></label>
-      <textarea id="productDesc" rows="4" placeholder="請簡述您的商品或服務內容..."></textarea>
-      <div class="error-msg">請填寫商品簡介</div>
-    </div>
     <div class="form-group">
-      <label>備註 (選填)</label>
-      <textarea id="notes" rows="2" placeholder="是否有其他特殊需求？"></textarea>
+      <label>商品/服務簡介 <span class="req">*</span></label>
+      <textarea id="productDesc" rows="4" placeholder="請簡述您的特色..."></textarea>
     </div>
+    <div class="card-title" style="margin-top:20px; font-size:14px;">設備需求</div>
+    <label class="check-item"><input type="checkbox" name="equip" value="⚡用電"><span>⚡ 需要用電</span></label>
+    <label class="check-item"><input type="checkbox" name="equip" value="💧用水"><span>💧 需要用水</span></label>
   </div>
 </div>
 
@@ -284,182 +229,137 @@ input:focus { outline: none; border-color: var(--gold); background: rgba(0,0,0,0
 </div>
 
 <div id="success-screen">
-  <div class="success-icon">🎉</div>
-  <div class="success-title" style="font-size: 24px; font-weight: bold;">報名成功！</div>
-  <div class="success-sub" style="margin-top:10px; color: var(--text-muted);">主辦方將在 3 個工作日內與您聯繫。</div>
-  <div class="success-id" id="appIdDisplay" style="margin-top:20px; color: var(--gold);"></div>
-  <br><br>
-  <button class="btn btn-main" style="max-width:200px;" onclick="resetForm()">返回填寫</button>
+  <div style="font-size: 60px;">🌲</div>
+  <h2 style="color:var(--gold); margin: 20px 0 10px;">報名資料已送出</h2>
+  <p style="color:var(--text-muted); margin-bottom: 30px;">我們將於 3 個工作日內完成初步審核並與您聯絡。</p>
+  <div id="appIdDisplay" style="background:rgba(255,255,255,0.05); padding:15px; border-radius:10px; font-family:monospace;"></div>
+  <button class="btn btn-main" style="margin-top:40px; max-width:200px;" onclick="location.reload()">再填一份</button>
 </div>
 
-<div class="loading-overlay hidden" id="loadingOverlay">
-  <div class="loading-text">正在送出報名資料...</div>
-</div>
-
+<div class="loading-overlay hidden" id="loadingOverlay">處理中，請稍候...</div>
 <div class="toast" id="toast"></div>
 
 <script>
 let currentStep = 1;
-const TOTAL_STEPS = 4;
 let selectedCat = '';
 let selectedSize = '';
-
 const GAS_URL = 'https://script.google.com/macros/s/AKfycby6vIPFJrOn35cUMkiMM9D4qW1hMcrLDPWPEFOypJMEHImHNDYS6tb5q50uM4mm2fY/exec';
 
-// ── 初始化事件監聽 ──
-window.addEventListener('DOMContentLoaded', () => {
-  // 類別選擇監聽
-  document.querySelectorAll('.cat-item').forEach(el => {
-    el.addEventListener('click', () => {
-      document.querySelectorAll('.cat-item').forEach(e => e.classList.remove('selected'));
-      el.classList.add('selected');
-      selectedCat = el.dataset.cat;
-      document.getElementById('catError').style.display = 'none';
-    });
-  });
-
-  // 尺寸選擇監聽
-  document.querySelectorAll('.size-item').forEach(el => {
-    el.addEventListener('click', () => {
-      document.querySelectorAll('.size-item').forEach(e => e.classList.remove('selected'));
-      el.classList.add('selected');
-      selectedSize = el.dataset.size;
-      document.getElementById('sizeError').style.display = 'none';
-    });
+// ── 點擊效果初始化 ──
+document.querySelectorAll('.cat-item').forEach(el => {
+  el.addEventListener('click', () => {
+    document.querySelectorAll('.cat-item').forEach(e => e.classList.remove('selected'));
+    el.classList.add('selected');
+    selectedCat = el.dataset.cat;
+    document.getElementById('catError').style.display = 'none';
   });
 });
 
-function updateProgress(step) {
-  document.getElementById('progressFill').style.width = (step / TOTAL_STEPS * 100) + '%';
-  for (let i = 1; i <= 4; i++) {
-    document.getElementById('lbl' + i).className = 'step-label' + (i === step ? ' active' : '');
-  }
-  document.getElementById('btnBack').style.display = step > 1 ? 'block' : 'none';
-  const btnNext = document.getElementById('btnNext');
-  btnNext.textContent = step === 4 ? '🚀 確認送出報名' : '下一步 →';
+document.querySelectorAll('.size-item').forEach(el => {
+  el.addEventListener('click', () => {
+    document.querySelectorAll('.size-item').forEach(e => e.classList.remove('selected'));
+    el.classList.add('selected');
+    selectedSize = el.dataset.size;
+    document.getElementById('sizeError').style.display = 'none';
+  });
+});
+
+function updateUI() {
+  document.getElementById('progressFill').style.width = (currentStep / 4 * 100) + '%';
+  document.querySelectorAll('.step-label').forEach((lbl, idx) => {
+    lbl.classList.toggle('active', (idx + 1) === currentStep);
+  });
+  document.getElementById('btnBack').style.display = currentStep > 1 ? 'block' : 'none';
+  document.getElementById('btnNext').textContent = currentStep === 4 ? '🚀 確認送出' : '下一步 →';
+  
+  // 當到最後一步確認或成功時，隱藏頂部介紹區
+  document.getElementById('introArea').style.display = (currentStep === 4) ? 'none' : 'block';
 }
 
-function validateStep(step) {
-  let ok = true;
-  const showError = (id, isErr) => {
-    const el = document.getElementById(id);
-    if (isErr) el.classList.add('has-error');
-    else el.classList.remove('has-error');
-  };
-
-  if (step === 1) {
-    if (!document.getElementById('businessName').value.trim()) { showError('fg-businessName', true); ok = false; }
-    else showError('fg-businessName', false);
-
-    if (!document.getElementById('contactName').value.trim()) { showError('fg-contactName', true); ok = false; }
-    else showError('fg-contactName', false);
-
-    const phone = document.getElementById('phone').value.replace(/[-\s]/g,'');
-    if (!/^09\d{8}$/.test(phone)) { showError('fg-phone', true); ok = false; }
-    else showError('fg-phone', false);
+function validate() {
+  if (currentStep === 1) {
+    const bName = document.getElementById('businessName').value.trim();
+    const cName = document.getElementById('contactName').value.trim();
+    const phone = document.getElementById('phone').value.trim();
+    if (!bName || !cName || !/^09\d{8}$/.test(phone)) return false;
   }
-
-  if (step === 2) {
-    if (!selectedCat) { document.getElementById('catError').style.display = 'block'; ok = false; }
-    if (!selectedSize) { document.getElementById('sizeError').style.display = 'block'; ok = false; }
+  if (currentStep === 2) {
+    if (!selectedCat || !selectedSize) return false;
   }
-
-  if (step === 3) {
-    if (!document.getElementById('estimatedRevenue').value) { showError('fg-rev', true); ok = false; }
-    else showError('fg-rev', false);
-
-    if (!document.getElementById('preferredDates').value) { showError('fg-date', true); ok = false; }
-    else showError('fg-date', false);
-
-    if (!document.getElementById('productDesc').value.trim()) { showError('fg-desc', true); ok = false; }
-    else showError('fg-desc', false);
+  if (currentStep === 3) {
+    if (!document.getElementById('estimatedRevenue').value || !document.getElementById('productDesc').value.trim()) return false;
   }
-  return ok;
+  return true;
 }
 
 function nextStep() {
-  if (!validateStep(currentStep)) {
-    showToast('⚠️ 請完整填寫必填欄位');
+  if (!validate()) {
+    showToast('⚠️ 請檢查必填欄位或手機格式');
     return;
   }
-  if (currentStep === 4) { submitForm(); return; }
+  if (currentStep === 4) { submit(); return; }
 
-  document.getElementById('step'+currentStep).classList.remove('active');
+  document.getElementById('step' + currentStep).classList.remove('active');
   currentStep++;
-  document.getElementById('step'+currentStep).classList.add('active');
-  
-  if (currentStep === 4) buildSummary();
-  updateProgress(currentStep);
+  document.getElementById('step' + currentStep).classList.add('active');
+  if (currentStep === 4) showSummary();
+  updateUI();
   window.scrollTo({top:0, behavior:'smooth'});
 }
 
 function prevStep() {
-  document.getElementById('step'+currentStep).classList.remove('active');
+  document.getElementById('step' + currentStep).classList.remove('active');
   currentStep--;
-  document.getElementById('step'+currentStep).classList.add('active');
-  updateProgress(currentStep);
+  document.getElementById('step' + currentStep).classList.add('active');
+  updateUI();
 }
 
-function buildSummary() {
-  const equip = [...document.querySelectorAll('input[name=equip]:checked')].map(e=>e.value).join('、') || '無';
-  const rows = [
-    ['品牌名稱', document.getElementById('businessName').value],
+function showSummary() {
+  const equips = [...document.querySelectorAll('input[name="equip"]:checked')].map(e=>e.value).join(', ') || '無';
+  const data = [
+    ['品牌', document.getElementById('businessName').value],
     ['聯絡人', document.getElementById('contactName').value],
     ['類別', selectedCat],
-    ['需求尺寸', selectedSize],
-    ['出攤日期', document.getElementById('preferredDates').value],
-    ['用電用水', equip]
+    ['尺寸', selectedSize],
+    ['設備', equips]
   ];
-  document.getElementById('summaryContent').innerHTML = rows.map(([k,v]) => `
-    <div class="summary-row"><span class="summary-key">${k}</span><span class="summary-val">${v}</span></div>
-  `).join('');
+  document.getElementById('summaryContent').innerHTML = data.map(d => `<div class="summary-row"><span class="summary-key">${d[0]}</span><span>${d[1]}</span></div>`).join('');
 }
 
-async function submitForm() {
-  const appId = 'KD-' + Date.now().toString(36).toUpperCase();
-  const equip = [...document.querySelectorAll('input[name=equip]:checked')].map(e=>e.value).join('、') || '無';
-
+async function submit() {
+  const appId = 'KD-' + Math.random().toString(36).substr(2, 6).toUpperCase();
   const payload = {
     appId,
     businessName: document.getElementById('businessName').value,
     contactName: document.getElementById('contactName').value,
     phone: document.getElementById('phone').value,
-    lineId: document.getElementById('lineId').value,
-    email: document.getElementById('email').value,
     category: selectedCat,
     stallSize: selectedSize,
-    preferredDates: document.getElementById('preferredDates').value,
+    equipment: [...document.querySelectorAll('input[name="equip"]:checked')].map(e=>e.value).join(','),
     estimatedRevenue: document.getElementById('estimatedRevenue').value,
-    productDesc: document.getElementById('productDesc').value,
-    equipment: equip,
-    notes: document.getElementById('notes').value
+    productDesc: document.getElementById('productDesc').value
   };
 
   document.getElementById('loadingOverlay').classList.remove('hidden');
-  
   try {
     await fetch(GAS_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(payload) });
-    
-    // 成功後的畫面切換
     document.getElementById('loadingOverlay').classList.add('hidden');
+    document.getElementById('step4').style.display = 'none';
     document.getElementById('btnRow').style.display = 'none';
-    document.getElementById('step4').classList.remove('active');
     document.querySelector('.progress-wrap').style.display = 'none';
     document.getElementById('success-screen').style.display = 'block';
-    document.getElementById('appIdDisplay').textContent = '報名編號：' + appId;
-  } catch(err) {
+    document.getElementById('appIdDisplay').textContent = '序號：' + appId;
+  } catch (e) {
     document.getElementById('loadingOverlay').classList.add('hidden');
-    showToast('連線失敗，請檢查網路');
+    showToast('連線異常，請稍後再試');
   }
 }
 
-function showToast(msg) {
+function showToast(m) {
   const t = document.getElementById('toast');
-  t.textContent = msg; t.classList.add('show');
-  setTimeout(()=>t.classList.remove('show'), 3000);
+  t.textContent = m; t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2500);
 }
-
-function resetForm() { location.reload(); }
 </script>
 </body>
 </html>
