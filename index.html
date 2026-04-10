@@ -40,13 +40,13 @@ body {
 .step-label { font-size: 11px; color: var(--text-muted); }
 .step-label.active { color: var(--gold); font-weight: bold; }
 
-/* ── 第一頁專屬：介紹 banner ── */
+/* ── 招商亮點卡片 (僅在 Step 1) ── */
 .info-banner {
-  margin-bottom: 20px; padding: 20px;
+  margin: 0 20px 20px; padding: 20px;
   background: linear-gradient(135deg, rgba(212,175,55,0.15), transparent);
   border: 1px solid var(--gold-glow); border-radius: var(--radius);
 }
-.info-grid { display: grid; grid-template-columns: 1fr; gap: 15px; }
+.info-grid { display: grid; grid-template-columns: 1fr; gap: 15px; margin-top: 10px; }
 .info-item { font-size: 13px; color: var(--text-main); border-left: 2px solid var(--gold); padding-left: 10px; }
 .info-item small { display: block; color: var(--gold); font-weight: bold; font-size: 11px; }
 
@@ -59,7 +59,7 @@ body {
 .card-title { font-size: 16px; font-weight: bold; color: var(--gold); margin-bottom: 20px; display: flex; align-items: center; gap: 8px; }
 .card-title::before { content:''; width:4px; height:16px; background: var(--gold); border-radius: 2px; }
 
-/* ── 選項格樣式 ── */
+/* ── 選項格樣式 (修正點) ── */
 .cat-grid, .size-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
 .cat-item, .size-item {
   background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.1);
@@ -69,26 +69,17 @@ body {
   border-color: var(--gold); background: rgba(212, 175, 55, 0.15); color: var(--gold); 
 }
 .cat-icon { font-size: 24px; margin-bottom: 5px; }
-.cat-name, .size-name { font-weight: bold; font-size: 14px; }
-.size-dim { font-size: 11px; opacity: 0.6; }
 
-/* ── 通用輸入框 ── */
+/* ── 輸入框 ── */
 .form-group { margin-bottom: 20px; }
 label { display: block; font-size: 13px; margin-bottom: 8px; color: var(--text-muted); }
 label .req { color: var(--danger); }
 input, select, textarea {
   width: 100%; padding: 14px; background: rgba(0,0,0,0.3);
   border: 1px solid rgba(255,255,255,0.15); border-radius: 10px;
-  color: #FFF; font-size: 16px; transition: 0.3s;
+  color: #FFF; font-size: 16px;
 }
-input:focus, select:focus, textarea:focus { outline: none; border-color: var(--gold); }
-
-/* ── 複選框 ── */
-.check-item { 
-  display: flex; align-items: center; gap: 12px; padding: 14px; 
-  background: rgba(255,255,255,0.03); border-radius: 10px; margin-bottom: 10px; cursor: pointer;
-}
-.check-item input { width: 18px; height: 18px; accent-color: var(--gold); }
+input:focus { outline: none; border-color: var(--gold); }
 
 /* ── 按鈕 ── */
 .btn-row { padding: 10px 20px 50px; display: flex; gap: 12px; }
@@ -100,16 +91,15 @@ input:focus, select:focus, textarea:focus { outline: none; border-color: var(--g
 .step-page.active { display: block; animation: fadeInUp 0.4s ease-out; }
 @keyframes fadeInUp { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
 
-.has-error input, .has-error select, .has-error textarea { border-color: var(--danger); }
 .error-msg { color: var(--danger); font-size: 11px; margin-top: 5px; display: none; }
+.has-error input { border-color: var(--danger); }
 .has-error .error-msg { display: block; }
 
-/* ── 成功與載入 ── */
-#success-screen { display: none; text-align: center; padding: 60px 20px; }
-.loading-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.85); display: flex; justify-content: center; align-items: center; z-index: 100; color: var(--gold); font-weight: bold; }
+/* ── 摘要與成功 ── */
+.summary-row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
+.loading-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.8); display: flex; justify-content: center; align-items: center; z-index: 100; }
 .hidden { display: none; }
-.summary-row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 14px; }
-.summary-key { color: var(--text-muted); }
+#success-screen { display: none; text-align: center; padding: 50px 20px; }
 </style>
 </head>
 <body>
@@ -130,29 +120,39 @@ input:focus, select:focus, textarea:focus { outline: none; border-color: var(--g
 </div>
 
 <div class="step-page active" id="step1">
-  <div class="card">
-    <div class="info-banner">
-      <div class="info-grid">
-        <div class="info-item"><small>進駐優勢：</small>因名額有限，採取擇優錄取制，「免場租」低門檻策略。</div>
-        <div class="info-item"><small>合作模式：</small>採審核制與「合作分潤模式」，共享收益。</div>
-        <div class="info-item"><small>流量核心：</small>大坑精華地段，假日逾 2,000 人次之強勁人流。</div>
+  <div class="info-banner">
+    <div class="info-grid">
+      <div class="info-item">
+        <small>進駐優勢：</small>因名額有限，採取擇優錄取制，「免場租」低門檻策略，大幅降低進駐風險。
+      </div>
+      <div class="info-item">
+        <small>合作模式：</small>採審核制與「合作分潤模式」，強調共享收益、營造互惠生態圈。
+      </div>
+      <div class="info-item">
+        <small>流量核心：</small>坐落大坑核心精華地段，匯聚假日逾 2,000 人次之強勁人流。
+      </div>
+      <div class="info-item">
+        <small>精準客群：</small>匯聚露營愛好者、親子家庭與社群焦點，讓大坑的人氣成為您的商機。
       </div>
     </div>
+  </div>
+
+  <div class="card">
     <div class="card-title">基本聯絡資料</div>
     <div class="form-group" id="fg-businessName">
       <label>攤商/品牌名稱 <span class="req">*</span></label>
-      <input type="text" id="businessName" placeholder="例：山林野炊">
-      <div class="error-msg">請輸入品牌名稱</div>
+      <input type="text" id="businessName" placeholder="例：山林野炊、露營裝備屋">
+      <div class="error-msg">請輸入攤商名稱</div>
     </div>
     <div class="form-group" id="fg-contactName">
       <label>聯絡人姓名 <span class="req">*</span></label>
       <input type="text" id="contactName" placeholder="請輸入真實姓名">
-      <div class="error-msg">請輸入姓名</div>
+      <div class="error-msg">請輸入聯絡人姓名</div>
     </div>
     <div class="form-group" id="fg-phone">
       <label>手機號碼 <span class="req">*</span></label>
       <input type="tel" id="phone" placeholder="09XX-XXX-XXX" maxlength="10">
-      <div class="error-msg">請輸入正確 10 位手機格式</div>
+      <div class="error-msg">請輸入有效手機號碼</div>
     </div>
     <div class="form-group">
       <label>LINE ID</label>
@@ -168,14 +168,166 @@ input:focus, select:focus, textarea:focus { outline: none; border-color: var(--g
       <div class="cat-item" data-cat="🏕️ 露營裝備"><div class="cat-icon">🏕️</div><div class="cat-name">露營裝備</div></div>
       <div class="cat-item" data-cat="🍳 戶外美食"><div class="cat-icon">🍳</div><div class="cat-name">戶外美食</div></div>
       <div class="cat-item" data-cat="☕ 咖啡茶飲"><div class="cat-icon">☕</div><div class="cat-name">咖啡茶飲</div></div>
-      <div class="cat-item" data-cat="🌿 有機農產"><div class="cat-icon">🌿</div><div class="cat-name">農產品</div></div>
+      <div class="cat-item" data-cat="🌿 有機農產"><div class="cat-icon">🌿</div><div class="cat-name">有機農產</div></div>
       <div class="cat-item" data-cat="🔧 車宿配件"><div class="cat-icon">🔧</div><div class="cat-name">車宿配件</div></div>
       <div class="cat-item" data-cat="🧺 手作工藝"><div class="cat-icon">🧺</div><div class="cat-name">手作工藝</div></div>
     </div>
     <div class="error-msg" id="catError" style="text-align:center; margin-top:10px;">請選擇類別</div>
   </div>
+
   <div class="card">
     <div class="card-title">攤位尺寸需求 <span class="req">*</span></div>
     <div class="size-grid">
       <div class="size-item" data-size="標準攤位(3x3m)"><div class="size-name">標準</div><div class="size-dim">3x3m</div></div>
-      <div class="size-item" data-size
+      <div class="size-item" data-size="精選攤位(3x4.5m)"><div class="size-name">精選</div><div class="size-dim">3x4.5m</div></div>
+      <div class="size-item" data-size="餐車停車格"><div class="size-name">餐車</div><div class="size-dim">停車格</div></div>
+      <div class="size-item" data-size="其他需求"><div class="size-name">其他</div><div class="size-dim">特殊尺寸</div></div>
+    </div>
+    <div class="error-msg" id="sizeError" style="text-align:center; margin-top:10px;">請選擇尺寸</div>
+  </div>
+</div>
+
+<div class="step-page" id="step3">
+  <div class="card">
+    <div class="card-title">營運說明</div>
+    <div class="form-group">
+      <label>預估每日營業額 <span class="req">*</span></label>
+      <select id="estimatedRevenue">
+        <option value="">請選擇</option>
+        <option value="5,000元以下">5,000元以下</option>
+        <option value="5,000－10,000元">5,000－10,000元</option>
+        <option value="10,000元以上">10,000元以上</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>期望出攤日期 <span class="req">*</span></label>
+      <select id="preferredDates">
+        <option value="">請選擇</option>
+        <option value="每週六、日">每週六、日</option>
+        <option value="僅週六">僅週六</option>
+        <option value="僅週日">僅週日</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>商品/服務簡介 <span class="req">*</span></label>
+      <textarea id="productDesc" rows="4" placeholder="請簡述您的品牌亮點..."></textarea>
+    </div>
+  </div>
+</div>
+
+<div class="step-page" id="step4">
+  <div class="card">
+    <div class="card-title">資料最後確認</div>
+    <div id="summaryContent"></div>
+  </div>
+</div>
+
+<div class="btn-row" id="btnRow">
+  <button class="btn btn-back" id="btnBack" onclick="prevStep()" style="display:none">← 上一步</button>
+  <button class="btn btn-main" id="btnNext" onclick="nextStep()">下一步 →</button>
+</div>
+
+<div id="success-screen">
+  <div style="font-size: 50px;">🌲</div>
+  <h2 style="color:var(--gold); margin:20px 0;">報名成功！</h2>
+  <p id="appIdDisplay" style="color:var(--text-muted);"></p>
+  <button class="btn btn-main" style="margin-top:30px; max-width:200px;" onclick="location.reload()">回首頁</button>
+</div>
+
+<div class="loading-overlay hidden" id="loadingOverlay">正在送出資料...</div>
+
+<script>
+let currentStep = 1;
+let selectedCat = '';
+let selectedSize = '';
+const GAS_URL = 'https://script.google.com/macros/s/AKfycby6vIPFJrOn35cUMkiMM9D4qW1hMcrLDPWPEFOypJMEHImHNDYS6tb5q50uM4mm2fY/exec';
+
+// ── 初始化點擊選擇 ──
+document.querySelectorAll('.cat-item').forEach(el => {
+  el.addEventListener('click', () => {
+    document.querySelectorAll('.cat-item').forEach(e => e.classList.remove('selected'));
+    el.classList.add('selected');
+    selectedCat = el.dataset.cat;
+    document.getElementById('catError').style.display = 'none';
+  });
+});
+
+document.querySelectorAll('.size-item').forEach(el => {
+  el.addEventListener('click', () => {
+    document.querySelectorAll('.size-item').forEach(e => e.classList.remove('selected'));
+    el.classList.add('selected');
+    selectedSize = el.dataset.size;
+    document.getElementById('sizeError').style.display = 'none';
+  });
+});
+
+function updateProgress() {
+  document.getElementById('progressFill').style.width = (currentStep / 4 * 100) + '%';
+  document.querySelectorAll('.step-label').forEach((lbl, idx) => {
+    lbl.classList.toggle('active', (idx + 1) === currentStep);
+  });
+  document.getElementById('btnBack').style.display = currentStep > 1 ? 'block' : 'none';
+  document.getElementById('btnNext').textContent = currentStep === 4 ? '🚀 確認送出' : '下一步 →';
+}
+
+function validate() {
+  if (currentStep === 1) {
+    const phone = document.getElementById('phone').value;
+    if (!document.getElementById('businessName').value || !document.getElementById('contactName').value || !/^09\d{8}$/.test(phone)) return false;
+  }
+  if (currentStep === 2) {
+    if (!selectedCat || !selectedSize) return false;
+  }
+  if (currentStep === 3) {
+    if (!document.getElementById('estimatedRevenue').value || !document.getElementById('productDesc').value) return false;
+  }
+  return true;
+}
+
+function nextStep() {
+  if (!validate()) { alert('請完整填寫並檢查格式'); return; }
+  if (currentStep === 4) { submit(); return; }
+
+  document.getElementById('step' + currentStep).classList.remove('active');
+  currentStep++;
+  document.getElementById('step' + currentStep).classList.add('active');
+  if (currentStep === 4) showSummary();
+  updateProgress();
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+function prevStep() {
+  document.getElementById('step' + currentStep).classList.remove('active');
+  currentStep--;
+  document.getElementById('step' + currentStep).classList.add('active');
+  updateProgress();
+}
+
+function showSummary() {
+  const content = `
+    <div class="summary-row"><span>品牌</span><span>${document.getElementById('businessName').value}</span></div>
+    <div class="summary-row"><span>聯絡人</span><span>${document.getElementById('contactName').value}</span></div>
+    <div class="summary-row"><span>類別</span><span>${selectedCat}</span></div>
+    <div class="summary-row"><span>尺寸</span><span>${selectedSize}</span></div>
+  `;
+  document.getElementById('summaryContent').innerHTML = content;
+}
+
+async function submit() {
+  const appId = 'KD-' + Math.random().toString(36).substr(2, 6).toUpperCase();
+  document.getElementById('loadingOverlay').classList.remove('hidden');
+  try {
+    await fetch(GAS_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify({ appId, name: document.getElementById('businessName').value }) });
+    document.getElementById('loadingOverlay').classList.add('hidden');
+    document.getElementById('step4').style.display = 'none';
+    document.getElementById('btnRow').style.display = 'none';
+    document.getElementById('success-screen').style.display = 'block';
+    document.getElementById('appIdDisplay').textContent = '編號：' + appId;
+  } catch(e) {
+    alert('提交失敗');
+    document.getElementById('loadingOverlay').classList.add('hidden');
+  }
+}
+</script>
+</body>
+</html>
