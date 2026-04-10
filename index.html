@@ -24,6 +24,7 @@ body {
   background-image: radial-gradient(circle at top right, #153024 0%, #0A1A12 100%);
   color: var(--text-main); 
   line-height: 1.6;
+  min-height: 100vh;
 }
 
 /* ── 手機版 Hero ── */
@@ -40,13 +41,13 @@ body {
 .step-label { font-size: 11px; color: var(--text-muted); }
 .step-label.active { color: var(--gold); font-weight: bold; }
 
-/* ── 招商亮點卡片 ── */
+/* ── 資訊區 ── */
 .info-banner {
   margin: 0 20px 20px; padding: 20px;
   background: linear-gradient(135deg, rgba(212,175,55,0.15), transparent);
   border: 1px solid var(--gold-glow); border-radius: var(--radius);
 }
-.info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 10px; }
+.info-grid { display: grid; grid-template-columns: 1fr; gap: 15px; margin-top: 10px; }
 .info-item { font-size: 13px; color: var(--text-main); border-left: 2px solid var(--gold); padding-left: 10px; }
 .info-item small { display: block; color: var(--gold); font-weight: bold; font-size: 11px; }
 
@@ -60,24 +61,29 @@ body {
 .card-title::before { content:''; width:4px; height:16px; background: var(--gold); border-radius: 2px; }
 
 /* ── 輸入框樣式 ── */
-.form-group { margin-bottom: 20px; }
+.form-group { margin-bottom: 20px; position: relative; }
 label { display: block; font-size: 13px; margin-bottom: 8px; color: var(--text-muted); }
 label .req { color: var(--danger); }
 input, select, textarea {
   width: 100%; padding: 14px; background: rgba(0,0,0,0.3);
   border: 1px solid rgba(255,255,255,0.15); border-radius: 10px;
-  color: #FFF; font-size: 16px; /* 防止 iOS 自動縮放 */
+  color: #FFF; font-size: 16px;
 }
 input:focus { outline: none; border-color: var(--gold); background: rgba(0,0,0,0.5); }
+.input-hint { font-size: 11px; color: var(--text-muted); margin-top: 5px; }
 
-/* ── 選擇格 ── */
-.grid-select { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-.option-box { 
-  background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1);
-  padding: 15px 10px; text-align: center; border-radius: 12px; transition: 0.3s;
+/* ── 類別與尺寸選擇格 (修正重點) ── */
+.cat-grid, .size-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.cat-item, .size-item {
+  background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 15px 10px; text-align: center; border-radius: 12px; transition: 0.3s; cursor: pointer;
 }
-.option-box.selected { border-color: var(--gold); background: rgba(212,175,55,0.1); color: var(--gold); }
-.option-box i { display: block; font-size: 20px; margin-bottom: 5px; font-style: normal; }
+.cat-item.selected, .size-item.selected { 
+  border-color: var(--gold); background: rgba(212, 175, 55, 0.15); color: var(--gold); 
+}
+.cat-icon { font-size: 24px; margin-bottom: 5px; }
+.cat-name, .size-name { font-weight: bold; font-size: 14px; }
+.size-dim { font-size: 11px; opacity: 0.7; }
 
 /* ── 複選框 ── */
 .check-item { 
@@ -86,19 +92,48 @@ input:focus { outline: none; border-color: var(--gold); background: rgba(0,0,0,0
 }
 .check-item input { width: 20px; height: 20px; accent-color: var(--gold); }
 
+/* ── 抽成區 ── */
+.commission-box {
+  background: rgba(212,175,55,0.1); border: 1px dashed var(--gold);
+  padding: 15px; border-radius: 12px; text-align: center; margin-bottom: 20px;
+}
+.commission-pct { font-size: 24px; font-weight: 800; color: var(--gold); }
+.commission-label { font-size: 12px; color: var(--text-muted); }
+
+/* ── 摘要 ── */
+.summary-row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
+.summary-key { color: var(--text-muted); font-size: 14px; }
+.summary-val { color: #FFF; font-weight: 500; text-align: right; }
+
 /* ── 按鈕 ── */
 .btn-row { padding: 10px 20px 50px; display: flex; gap: 12px; }
-.btn { flex: 1; padding: 16px; border-radius: 30px; border: none; font-size: 16px; font-weight: bold; }
-.btn-main { background: linear-gradient(to right, #D4AF37, #F9E29D); color: #2A1F07; box-shadow: 0 5px 15px rgba(212,175,55,0.3); }
+.btn { flex: 1; padding: 16px; border-radius: 30px; border: none; font-size: 16px; font-weight: bold; cursor: pointer; }
+.btn-main { background: linear-gradient(to right, #D4AF37, #F9E29D); color: #2A1F07; }
 .btn-back { background: rgba(255,255,255,0.1); color: #FFF; }
 
+/* ── 狀態控制 ── */
 .step-page { display: none; }
 .step-page.active { display: block; animation: fadeInUp 0.4s ease-out; }
 @keyframes fadeInUp { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
 
 .error-msg { color: var(--danger); font-size: 11px; margin-top: 5px; display: none; }
-.has-error input { border-color: var(--danger); }
+.has-error input, .has-error select, .has-error textarea { border-color: var(--danger); }
 .has-error .error-msg { display: block; }
+
+/* ── 成功畫面與 Loading ── */
+#success-screen { display: none; text-align: center; padding: 60px 20px; }
+.success-icon { font-size: 60px; margin-bottom: 20px; }
+.loading-overlay { 
+  position: fixed; inset: 0; background: rgba(0,0,0,0.8); 
+  display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 100; 
+}
+.hidden { display: none; }
+.toast {
+  position: fixed; bottom: 100px; left: 50%; transform: translateX(-50%);
+  background: var(--danger); color: white; padding: 10px 20px; border-radius: 20px;
+  font-size: 14px; opacity: 0; transition: 0.3s; z-index: 1000;
+}
+.toast.show { opacity: 1; }
 </style>
 </head>
 <body>
@@ -121,17 +156,16 @@ input:focus { outline: none; border-color: var(--gold); background: rgba(0,0,0,0
 <div class="step-page active" id="step1">
   <div class="info-banner">
     <div class="info-grid">
-      <div class="info-item"><small>進駐優勢：</small>因名額有限，採取擇優錄取制，「免場租」低門檻策略，大幅降低進駐風險。</div>
-<div class="info-item"><small>合作模式：</small>採審核制與「合作分潤模式」，強調共享收益、營造互惠生態圈。</div>
-      <div class="info-item"><small>流量核心：</small>坐落大坑核心精華地段，匯聚假日逾 2,000 人次之強勁人流。憑藉優越地利優勢，精準捕捉高品質消費族群，將自然流量轉化為品牌爆發力。</div>
-<div class="info-item"><small>精準客群：</small>匯聚露營愛好者、親子家庭與社群焦點，讓大坑的人氣成為您的商機。加入我們，一起將萬人流量轉化為品牌實力！。</div>
+      <div class="info-item"><small>進駐優勢：</small>「免場租」低門檻，採擇優錄取制，降低進駐風險。</div>
+      <div class="info-item"><small>合作模式：</small>審核制與「合作分潤」，共享收益互惠。</div>
+    </div>
   </div>
 
   <div class="card">
     <div class="card-title">基本聯絡資料</div>
     <div class="form-group" id="fg-businessName">
       <label>攤商/品牌名稱 <span class="req">*</span></label>
-      <input type="text" id="businessName" placeholder="例：山林野炊、露營裝備屋">
+      <input type="text" id="businessName" placeholder="例：山林野炊">
       <div class="error-msg">請輸入攤商名稱</div>
     </div>
     <div class="form-group" id="fg-contactName">
@@ -141,25 +175,24 @@ input:focus { outline: none; border-color: var(--gold); background: rgba(0,0,0,0
     </div>
     <div class="form-group" id="fg-phone">
       <label>手機號碼 <span class="req">*</span></label>
-      <input type="tel" id="phone" placeholder="09XX-XXX-XXX" maxlength="12">
-      <div class="error-msg">請輸入有效手機號碼</div>
+      <input type="tel" id="phone" placeholder="09XX-XXX-XXX" maxlength="10">
+      <div class="error-msg">請輸入有效 10 位手機號碼</div>
     </div>
     <div class="form-group">
       <label>LINE ID</label>
-      <input type="text" id="lineId" placeholder="請輸入您的 LINE ID">
-      <div class="input-hint">填寫後我們可直接透過 LINE 與您聯絡</div>
+      <input type="text" id="lineId" placeholder="請輸入 LINE ID">
     </div>
     <div class="form-group">
       <label>電子信箱</label>
-      <input type="email" id="email" placeholder="用於寄送審核結果通知">
+      <input type="email" id="email" placeholder="用於寄送結果通知">
     </div>
   </div>
 </div>
 
 <div class="step-page" id="step2">
   <div class="card">
-    <div class="card-title">選擇攤商類別</div>
-    <div class="cat-grid" id="catGrid">
+    <div class="card-title">選擇攤商類別 <span class="req">*</span></div>
+    <div class="cat-grid">
       <div class="cat-item" data-cat="🏕️ 露營裝備"><div class="cat-icon">🏕️</div><div class="cat-name">露營裝備</div></div>
       <div class="cat-item" data-cat="🍳 戶外料理美食"><div class="cat-icon">🍳</div><div class="cat-name">戶外料理</div></div>
       <div class="cat-item" data-cat="☕ 咖啡茶飲"><div class="cat-icon">☕</div><div class="cat-name">咖啡茶飲</div></div>
@@ -168,7 +201,7 @@ input:focus { outline: none; border-color: var(--gold); background: rgba(0,0,0,0
       <div class="cat-item" data-cat="🧺 手作體驗工藝"><div class="cat-icon">🧺</div><div class="cat-name">手作工藝</div></div>
     </div>
     <div id="fg-cat" class="form-group" style="margin-top:10px;">
-      <div class="error-msg" id="catError">請選擇攤商類別</div>
+      <div class="error-msg" id="catError">請選擇一項攤商類別</div>
     </div>
   </div>
 
@@ -177,35 +210,37 @@ input:focus { outline: none; border-color: var(--gold); background: rgba(0,0,0,0
     <div class="checkbox-group">
       <label class="check-item">
         <input type="checkbox" name="equip" value="⚡ 需要用電">
-        <span class="check-label">⚡ 需要用電<br><small style="color:var(--muted)">現場提供基本電力接引</small></span>
+        <span>⚡ 需要用電 (提供基本電力)</span>
       </label>
       <label class="check-item">
         <input type="checkbox" name="equip" value="💧 需要用水">
-        <span class="check-label">💧 需要用水<br><small style="color:var(--muted)">附近有共用公設水源</small></span>
+        <span>💧 需要用水 (公設水源)</span>
       </label>
     </div>
   </div>
 
   <div class="card">
-    <div class="card-title">攤位尺寸需求</div>
-    <div class="size-grid" id="sizeGrid">
+    <div class="card-title">攤位尺寸需求 <span class="req">*</span></div>
+    <div class="size-grid">
       <div class="size-item" data-size="標準攤位（3×3m）"><div class="size-name">標準攤位</div><div class="size-dim">3 × 3m</div></div>
       <div class="size-item" data-size="精選攤位（3×4.5m）"><div class="size-name">精選攤位</div><div class="size-dim">3 × 4.5m</div></div>
-      <div class="size-item" data-size="餐車/行動攤車停車格"><div class="size-name">餐車攤車</div><div class="size-dim">停車格尺寸</div></div>
+      <div class="size-item" data-size="餐車/行動攤車停車格"><div class="size-name">餐車攤車</div><div class="size-dim">停車格</div></div>
       <div class="size-item" data-size="其他需求"><div class="size-name">其他需求</div><div class="size-dim">特殊尺寸</div></div>
     </div>
-    <div id="fg-size" class="form-group"><div class="error-msg" id="sizeError">請選擇攤位尺寸</div></div>
+    <div id="fg-size" class="form-group" style="margin-top:10px;">
+      <div class="error-msg" id="sizeError">請選擇攤位尺寸</div>
+    </div>
   </div>
 </div>
 
 <div class="step-page" id="step3">
   <div class="card">
-    <div class="card-title">抽成制度與預估</div>
+    <div class="card-title">營運資訊</div>
     <div class="commission-box">
       <div class="commission-pct">15%</div>
       <div class="commission-label">每日營業額抽成</div>
     </div>
-    <div class="form-group">
+    <div class="form-group" id="fg-rev">
       <label>預估每日營業額 <span class="req">*</span></label>
       <select id="estimatedRevenue">
         <option value="">請選擇</option>
@@ -214,7 +249,7 @@ input:focus { outline: none; border-color: var(--gold); background: rgba(0,0,0,0
         <option value="10,000元以上">10,000元以上</option>
       </select>
     </div>
-    <div class="form-group">
+    <div class="form-group" id="fg-date">
       <label>期望出攤日期 <span class="req">*</span></label>
       <select id="preferredDates">
         <option value="">請選擇</option>
@@ -224,9 +259,9 @@ input:focus { outline: none; border-color: var(--gold); background: rgba(0,0,0,0
         <option value="彈性配合">彈性配合</option>
       </select>
     </div>
-    <div class="form-group">
+    <div class="form-group" id="fg-desc">
       <label>商品／服務簡介 <span class="req">*</span></label>
-      <textarea id="productDesc" rows="4" placeholder="請簡述您的商品種類或服務內容…"></textarea>
+      <textarea id="productDesc" rows="4" placeholder="請簡述您的商品或服務內容..."></textarea>
       <div class="error-msg">請填寫商品簡介</div>
     </div>
     <div class="form-group">
@@ -238,7 +273,7 @@ input:focus { outline: none; border-color: var(--gold); background: rgba(0,0,0,0
 
 <div class="step-page" id="step4">
   <div class="card">
-    <div class="card-title">資料確認</div>
+    <div class="card-title">報名資料確認</div>
     <div id="summaryContent"></div>
   </div>
 </div>
@@ -250,16 +285,15 @@ input:focus { outline: none; border-color: var(--gold); background: rgba(0,0,0,0
 
 <div id="success-screen">
   <div class="success-icon">🎉</div>
-  <div class="success-title">報名成功！</div>
-  <div class="success-sub">主辦方將在 3 個工作日內與您聯繫。</div>
-  <div class="success-id" id="appIdDisplay"></div>
+  <div class="success-title" style="font-size: 24px; font-weight: bold;">報名成功！</div>
+  <div class="success-sub" style="margin-top:10px; color: var(--text-muted);">主辦方將在 3 個工作日內與您聯繫。</div>
+  <div class="success-id" id="appIdDisplay" style="margin-top:20px; color: var(--gold);"></div>
   <br><br>
-  <button class="btn btn-main" style="max-width:220px;margin:0 auto;display:block" onclick="resetForm()">再填一份</button>
+  <button class="btn btn-main" style="max-width:200px;" onclick="resetForm()">返回填寫</button>
 </div>
 
 <div class="loading-overlay hidden" id="loadingOverlay">
-  <div class="spinner"></div>
-  <div class="loading-text">正在送出報名資料…</div>
+  <div class="loading-text">正在送出報名資料...</div>
 </div>
 
 <div class="toast" id="toast"></div>
@@ -267,17 +301,14 @@ input:focus { outline: none; border-color: var(--gold); background: rgba(0,0,0,0
 <script>
 let currentStep = 1;
 const TOTAL_STEPS = 4;
-let selectedCat  = '';
+let selectedCat = '';
 let selectedSize = '';
 
-// ── 後台網址設定 ──
-const HARDCODED_GAS_URL = 'https://script.google.com/macros/s/AKfycby6vIPFJrOn35cUMkiMM9D4qW1hMcrLDPWPEFOypJMEHImHNDYS6tb5q50uM4mm2fY/exec';
+const GAS_URL = 'https://script.google.com/macros/s/AKfycby6vIPFJrOn35cUMkiMM9D4qW1hMcrLDPWPEFOypJMEHImHNDYS6tb5q50uM4mm2fY/exec';
 
-function getGasUrl() { return HARDCODED_GAS_URL; }
-
-// ── 初始化 ──
+// ── 初始化事件監聽 ──
 window.addEventListener('DOMContentLoaded', () => {
-  // 類別選擇
+  // 類別選擇監聽
   document.querySelectorAll('.cat-item').forEach(el => {
     el.addEventListener('click', () => {
       document.querySelectorAll('.cat-item').forEach(e => e.classList.remove('selected'));
@@ -286,7 +317,8 @@ window.addEventListener('DOMContentLoaded', () => {
       document.getElementById('catError').style.display = 'none';
     });
   });
-  // 尺寸選擇
+
+  // 尺寸選擇監聽
   document.querySelectorAll('.size-item').forEach(el => {
     el.addEventListener('click', () => {
       document.querySelectorAll('.size-item').forEach(e => e.classList.remove('selected'));
@@ -302,64 +334,61 @@ function updateProgress(step) {
   for (let i = 1; i <= 4; i++) {
     document.getElementById('lbl' + i).className = 'step-label' + (i === step ? ' active' : '');
   }
-  document.getElementById('btnBack').style.display = step > 1 ? 'flex' : 'none';
+  document.getElementById('btnBack').style.display = step > 1 ? 'block' : 'none';
   const btnNext = document.getElementById('btnNext');
   btnNext.textContent = step === 4 ? '🚀 確認送出報名' : '下一步 →';
-  btnNext.className = step === 4 ? 'btn btn-submit' : 'btn btn-main';
 }
 
 function validateStep(step) {
   let ok = true;
-  const req = (id, fgId) => {
+  const showError = (id, isErr) => {
     const el = document.getElementById(id);
-    const fg = document.getElementById(fgId);
-    if (!el.value.trim()) { fg.classList.add('has-error'); ok = false; }
-    else fg.classList.remove('has-error');
+    if (isErr) el.classList.add('has-error');
+    else el.classList.remove('has-error');
   };
+
   if (step === 1) {
-    req('businessName','fg-businessName');
-    req('contactName','fg-contactName');
-    if (!/^09\d{8}$/.test(document.getElementById('phone').value.replace(/[-\s]/g,''))) { 
-      document.getElementById('fg-phone').classList.add('has-error'); ok = false; 
-    } else document.getElementById('fg-phone').classList.remove('has-error');
+    if (!document.getElementById('businessName').value.trim()) { showError('fg-businessName', true); ok = false; }
+    else showError('fg-businessName', false);
+
+    if (!document.getElementById('contactName').value.trim()) { showError('fg-contactName', true); ok = false; }
+    else showError('fg-contactName', false);
+
+    const phone = document.getElementById('phone').value.replace(/[-\s]/g,'');
+    if (!/^09\d{8}$/.test(phone)) { showError('fg-phone', true); ok = false; }
+    else showError('fg-phone', false);
   }
+
   if (step === 2) {
-    if (!selectedCat) { document.getElementById('catError').style.display='block'; ok=false; }
-    if (!selectedSize) { document.getElementById('sizeError').style.display='block'; ok=false; }
+    if (!selectedCat) { document.getElementById('catError').style.display = 'block'; ok = false; }
+    if (!selectedSize) { document.getElementById('sizeError').style.display = 'block'; ok = false; }
   }
+
   if (step === 3) {
-    if (!document.getElementById('estimatedRevenue').value || !document.getElementById('productDesc').value.trim()) {
-      showToast('⚠️ 請填寫必填欄位'); ok=false;
-    }
+    if (!document.getElementById('estimatedRevenue').value) { showError('fg-rev', true); ok = false; }
+    else showError('fg-rev', false);
+
+    if (!document.getElementById('preferredDates').value) { showError('fg-date', true); ok = false; }
+    else showError('fg-date', false);
+
+    if (!document.getElementById('productDesc').value.trim()) { showError('fg-desc', true); ok = false; }
+    else showError('fg-desc', false);
   }
   return ok;
 }
 
-// ── 建立摘要顯示 ──
-function buildSummary() {
-  const equip = [...document.querySelectorAll('input[name=equip]:checked')].map(e=>e.value).join('、') || '無額外需求';
-  const rows = [
-    ['攤商名稱', document.getElementById('businessName').value],
-    ['聯絡人', document.getElementById('contactName').value],
-    ['手機', document.getElementById('phone').value],
-    ['電子信箱', document.getElementById('email').value || '未填寫'], // 補上摘要
-    ['類別', selectedCat],
-    ['尺寸', selectedSize],
-    ['日期', document.getElementById('preferredDates').value],
-    ['預估營收', document.getElementById('estimatedRevenue').value],
-    ['使用設備', equip], // 補上摘要
-    ['備註', document.getElementById('notes').value || '無'] // 補上摘要
-  ];
-  return rows.map(([k,v]) => `<div class="summary-row"><span class="summary-key">${k}</span><span class="summary-val">${v}</span></div>`).join('');
-}
-
 function nextStep() {
-  if (!validateStep(currentStep)) return;
+  if (!validateStep(currentStep)) {
+    showToast('⚠️ 請完整填寫必填欄位');
+    return;
+  }
   if (currentStep === 4) { submitForm(); return; }
+
   document.getElementById('step'+currentStep).classList.remove('active');
   currentStep++;
   document.getElementById('step'+currentStep).classList.add('active');
-  if (currentStep === 4) document.getElementById('summaryContent').innerHTML = buildSummary();
+  
+  if (currentStep === 4) buildSummary();
   updateProgress(currentStep);
   window.scrollTo({top:0, behavior:'smooth'});
 }
@@ -371,37 +400,51 @@ function prevStep() {
   updateProgress(currentStep);
 }
 
-// ── 送出表單 (補上 missing fields) ──
+function buildSummary() {
+  const equip = [...document.querySelectorAll('input[name=equip]:checked')].map(e=>e.value).join('、') || '無';
+  const rows = [
+    ['品牌名稱', document.getElementById('businessName').value],
+    ['聯絡人', document.getElementById('contactName').value],
+    ['類別', selectedCat],
+    ['需求尺寸', selectedSize],
+    ['出攤日期', document.getElementById('preferredDates').value],
+    ['用電用水', equip]
+  ];
+  document.getElementById('summaryContent').innerHTML = rows.map(([k,v]) => `
+    <div class="summary-row"><span class="summary-key">${k}</span><span class="summary-val">${v}</span></div>
+  `).join('');
+}
+
 async function submitForm() {
-  const gasUrl = getGasUrl();
   const appId = 'KD-' + Date.now().toString(36).toUpperCase();
-  
-  // 正確抓取設備勾選資料
   const equip = [...document.querySelectorAll('input[name=equip]:checked')].map(e=>e.value).join('、') || '無';
 
   const payload = {
     appId,
-    businessName: document.getElementById('businessName').value.trim(),
-    contactName: document.getElementById('contactName').value.trim(),
-    phone: document.getElementById('phone').value.trim(),
-    lineId: document.getElementById('lineId').value.trim(),
-    email: document.getElementById('email').value.trim(), // 確保這行有在
+    businessName: document.getElementById('businessName').value,
+    contactName: document.getElementById('contactName').value,
+    phone: document.getElementById('phone').value,
+    lineId: document.getElementById('lineId').value,
+    email: document.getElementById('email').value,
     category: selectedCat,
     stallSize: selectedSize,
     preferredDates: document.getElementById('preferredDates').value,
     estimatedRevenue: document.getElementById('estimatedRevenue').value,
-    productDesc: document.getElementById('productDesc').value.trim(),
-    equipment: equip,                             // <--- 補上設備
-    notes: document.getElementById('notes').value.trim() // <--- 補上備註
+    productDesc: document.getElementById('productDesc').value,
+    equipment: equip,
+    notes: document.getElementById('notes').value
   };
 
   document.getElementById('loadingOverlay').classList.remove('hidden');
+  
   try {
-    // 雖然使用 mode: 'no-cors'，資料仍會送出，只是抓不到回應，這是正常的
-    await fetch(gasUrl, { method: 'POST', mode: 'no-cors', body: JSON.stringify(payload) });
+    await fetch(GAS_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(payload) });
+    
+    // 成功後的畫面切換
     document.getElementById('loadingOverlay').classList.add('hidden');
     document.getElementById('btnRow').style.display = 'none';
     document.getElementById('step4').classList.remove('active');
+    document.querySelector('.progress-wrap').style.display = 'none';
     document.getElementById('success-screen').style.display = 'block';
     document.getElementById('appIdDisplay').textContent = '報名編號：' + appId;
   } catch(err) {
@@ -410,12 +453,13 @@ async function submitForm() {
   }
 }
 
-function resetForm() { location.reload(); }
 function showToast(msg) {
   const t = document.getElementById('toast');
   t.textContent = msg; t.classList.add('show');
-  setTimeout(()=>t.classList.remove('show'), 2800);
+  setTimeout(()=>t.classList.remove('show'), 3000);
 }
+
+function resetForm() { location.reload(); }
 </script>
 </body>
 </html>
